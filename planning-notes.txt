@@ -1,0 +1,62 @@
+Views/Components needed
+===========================
+
+<App.../>
+    
+    <LoginForm.../> (route: '/login')- displays if user has not logged in, even if user tries to enter a different url.
+                    For starters just a dropdown with a list of users to select. Once user has logged in, this will be hidden.
+    
+    <Navbar.../> - obvious. Check rubric
+    
+    <Main.../> Main page/Home (route: '/')
+        <QuestionList.../> ( takes a "type" prop for showing answered or unanswered polls?)
+            <Question.../> ( )
+            
+
+    <ViewQuestion.../> (route: '/question/:question_id')
+            <Question.../>
+    
+    <Leaderboard.../> (route: '/leaderboard')
+    
+    <NewPoll.../> (route: '/add')
+
+
+        
+
+
+Which data should live in the store?
+=======================================
+authedUser (implies loggedin?)
+user info
+question info
+
+Which componenets should access store via "connect()"? (these would be considered "containers" I think)
+=========================================================================================================    
+<App>
+<LoginForm>
+<Main>
+<Leaderboard>
+<NewPoll>
+
+Actions:
+========
+handleLogin
+handleLogout
+
+
+
+Reducers:
+============
+
+
+Possible state/store objects:
+==========================================
+
+{
+    
+}
+
+
+
+
+
