@@ -34,14 +34,6 @@ class TopNav extends Component {
     };
     */
 
-    navItems = [
-        {navTo:'/', navText:'Main'},
-        {navTo:'/question/:question_id', navText:'Question'},
-        {navTo:'/leaderboard', navText:'Leaderboard'},
-        {navTo:'/add', navText:'New Poll'},
-    ];
-
-
     /*const navItemLinks = navItems.map((item, i) =>
         <NavItem key={i}>
             <NavLink tag={Link} to={item.navTo}>{item.navText}</NavLink>
@@ -66,7 +58,7 @@ class TopNav extends Component {
     }
 
 	render () {
-
+        const { navItems } = this.props;
 		return (
 			<div>
 	        <Navbar color="dark" dark expand="md">
@@ -74,17 +66,14 @@ class TopNav extends Component {
                 <div ref={(togglerNode) => {this.togglerRef = togglerNode}}><NavbarToggler onClick={this.toggle} /></div>
 	            <Collapse isOpen={this.state.isOpen} navbar>
 	            <Nav className="" navbar>{
-                    this.navItems.map((item, i) => {
+                    navItems.map((item, i) => {
                         const { navTo, navText } = item
                         return (
                             <NavItem key={i}>
                                 <NavLink tag={Link} exact={navTo === '/'} to={navTo} onClick={this.toggleCollapse}>{navText}</NavLink>
                             </NavItem>
                         )
-                    }
-
-
-                    )
+                    })
                 }</Nav>
 	          </Collapse>
 	        </Navbar>

@@ -83,8 +83,11 @@ Which componenets should access store via "connect()"? (these would be considere
     Will clear (UNSET) authedUser via "logout" button
 
 <LoginForm>
-    Needs user list, authed user
+    GET users
+    SET authedUser
+
         Allow user to select a user, then SET the authedUser store
+
 <Main>
     Needs everything
 
@@ -101,8 +104,7 @@ middleware:
 =================
 logger
 
-login? Can we do the loggedin check in middleware?
-
+? Anything else ?
 
 Actions:
 ========
@@ -123,6 +125,9 @@ handleGetInitialData - "shared" action?
 handleAnswerQuestion - save here?
     answerQuestionAction()
 
+handleGetAuthedUser
+    getAutheduserAction()
+
 handleGetUser
     getUserAction()
 
@@ -138,6 +143,10 @@ DO_LOGIN
 
 DO_LOGOUT
     set authedUser: ''
+
+
+FETCH_AUTHED_USER (only available if user has logged in)
+    return authedUser: userId
 
 FETCH_QUESTIONS
     questions (array of question_ids, returns all if question_id arry empty)
