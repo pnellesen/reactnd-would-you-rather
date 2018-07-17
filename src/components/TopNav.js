@@ -59,18 +59,20 @@ class TopNav extends Component {
 
 	render () {
         const { navItems } = this.props;
+        
+        console.log("TopNav - navItems? ", this.props)
 		return (
 			<div>
 	        <Navbar color="dark" dark expand="md">
-                <NavbarBrand tag={Link} to="/" exact onClick={this.toggleCollapse}>Mobile Web App</NavbarBrand>
-                <div ref={(togglerNode) => {this.togglerRef = togglerNode}}><NavbarToggler onClick={this.toggle} /></div>
+                <NavbarBrand tag={Link} to="/" exact="true"  onClick={() => this.toggleCollapse()}>Would you rather</NavbarBrand>
+                <div ref={(togglerNode) => {this.togglerRef = togglerNode}}><NavbarToggler onClick={() => this.toggle()} /></div>
 	            <Collapse isOpen={this.state.isOpen} navbar>
 	            <Nav className="" navbar>{
-                    navItems.map((item, i) => {
+                    navItems.filter((item) => item.isNavItem).map((item, i) => {
                         const { navTo, navText } = item
                         return (
                             <NavItem key={i}>
-                                <NavLink tag={Link} exact={navTo === '/'} to={navTo} onClick={this.toggleCollapse}>{navText}</NavLink>
+                                <NavLink tag={Link} exact={navTo === '/' ? 'true': 'false'} to={navTo} onClick={() => this.toggleCollapse()}>{navText}</NavLink>
                             </NavItem>
                         )
                     })
