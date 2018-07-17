@@ -6,11 +6,18 @@ Views/Components needed
     <LoginForm.../> (route: '/login')- displays if user has not logged in, even if user tries to enter a different url.
                     For starters just a dropdown with a list of users to select. Once user has logged in, this will be hidden.
     
-    <Navbar.../> - obvious. Check rubric
+    <ErrorPage .../> no topnav here if user hasn't logged in yet. 
+
+    <TopNav.../> - obvious. Check rubric
+    
     
     <Main.../> Main page/Home (route: '/')
-        <QuestionList.../> ( takes a "type" prop for showing answered or unanswered polls?)
-            <Question.../> ( )
+        <Tab../>
+            <QuestionList... (answered)/> ( takes a "type" prop for showing answered or unanswered polls?)
+                <Question.../> ( )
+        <Tab.../>
+            <QuestionList... (unanswered)/> ( takes a "type" prop for showing answered or unanswered polls?)
+                <Question.../> ( )
             
 
     <ViewQuestion.../> (route: '/question/:question_id')
@@ -30,6 +37,7 @@ authedUser (implies loggedin?)
 user info
 question info
 
+
 Which componenets should access store via "connect()"? (these would be considered "containers" I think)
 =========================================================================================================    
 <App>
@@ -41,19 +49,38 @@ Which componenets should access store via "connect()"? (these would be considere
 Actions:
 ========
 handleLogin
+    set authedUser in store
 handleLogout
+    remove authedUser from store
+
+handleInitialData - "shared" action?
+    get all questions and user info
+
+handleAnswerQuestion - save here?
 
 
 
 Reducers:
 ============
 
+DO_LOGIN
+    authedUser
+DO_LOGOUT
+    authedUser = ''
+
+FETCH_QUESTIONS
+    questions
+FETCH_USERS
+    users
+
 
 Possible state/store objects:
 ==========================================
 
 {
-    
+    authedUser
+
+
 }
 
 
