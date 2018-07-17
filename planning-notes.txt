@@ -83,6 +83,11 @@ Possible state/store objects:
 
 }
 
+Other notes:
+=====================
+
+Free avatar icons: https://www.pdclipart.org/thumbnails.php?album=85
+
 
 
 
