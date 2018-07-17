@@ -18,14 +18,13 @@ Views/Components needed
     
     
 
-    <TopNav.../> - obvious. Check rubric. 
+    <TopNav.../> - obvious. Check rubric. Hidden if url is '/login'
         In addition to nav links, need element showing logged in user and logout button.
         If user selects logout button, empty authedUser then redirect to '/login'
 
         props: authedUser
         
-
-    
+  
     <ErrorPage .../>
         
     
@@ -34,38 +33,38 @@ Views/Components needed
         GET authedUser
 
         <Tab.../>(Reactstrap tab group)
-            <QuestionList... (unanswered, displays as default)/> ( takes a "type" prop for showing answered or unanswered polls?)
-                <Link to ViewQuestion...>
-                
-                <Question.../> ( )
-                    Allow user to select an answere
-                    SAVE answer to question
+            <table>
+            <QuestionList... (unanswered by user, displays as default)/> ( takes a "questionIds" prop, filtered for those that haven't been answered by user, ordered by timestamp)
+                    <Link to ViewQuestion... (/question/:question_id)> 
         
         <Tab../>(Reactstrap tab group)
-            <QuestionList... ()/> (questions filtered for answered BY USER, ordered by timestamp -  takes a "type" prop for showing answered or unanswered polls?)
-                <Question.../> (Link to /question/:question_id )
-                    hide selection option if user 
-
-        
+            <QuestionList... ()/> ("questionIds" prop filtered for answered BY USER, ordered by timestamp)
+                <Link to ViewQuestion... (/question/:question_id)> (User's answer here?)
             
 
     <ViewQuestion.../> (route: '/question/:question_id')
             GET question
                 IF question_id not available, redirect to Error/404 page
 
-            <Question.../>
-                If not answere
+            SAVE question answer, user who anwered it.
+
+            <Question.../> (If question has been answered already by user, display | total # who chose each option | percentage of people who chose each option next to the option. Highlight the option chosen by the authedUser)
+                <option 1/> 
+                <option 2/> 
     
     <Leaderboard.../> (route: '/leaderboard')
+        functional component, no user interaction. Will need read access to store though.
         GET users
         GET questions
     
     <NewPoll.../> (route: '/add')
+        GET authedUser
+        GET users (filtered for authedUser)
         SAVE question
 
+        form with two text fields, one for optionOne, one for optionTwo
 
-        
-
+     
 
 Which data should live in the store?
 =======================================
@@ -96,19 +95,29 @@ Which componenets should access store via "connect()"? (these would be considere
     Needs everything
 
 <NewPoll>
-    Needs authedUser
+    Needs authedUser, users
+
+middleware:
+=================
+logger
+
+login? Can we do the loggedin check in middleware?
+
 
 Actions:
 ========
 handleDoLogin
     set authedUser in store
         doLoginAction()
+            user must exist in DATA. if not, set authedUser to ''
+
 handleDoLogout
     remove authedUser from store
         doLogoutAction()
 
 handleGetInitialData - "shared" action?
     get all questions and user info
+    AFTER user has logged in
         getInitialDataAction()
 
 handleAnswerQuestion - save here?
@@ -116,18 +125,19 @@ handleAnswerQuestion - save here?
 
 handleGetUser
     getUserAction()
+
 handleGetQuestion
     getQuestionAction()
-
 
 
 Reducers:
 ============
 
 DO_LOGIN
-    authedUser
+    set authedUser: userId 
+
 DO_LOGOUT
-    authedUser = ''
+    set authedUser: ''
 
 FETCH_QUESTIONS
     questions (array of question_ids, returns all if question_id arry empty)
@@ -140,11 +150,16 @@ Possible state/store objects:
 ==========================================
 
 {
-    authedUser
+    authedUser: userId or null. Must be an existing user in DATA.js
 
-    authors
+    users {
+        see _DATA.js
 
-    questions
+    }
+
+    questions {
+        see _DATA.js
+    }
 
 }
 
