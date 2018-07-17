@@ -2,30 +2,66 @@ Views/Components needed
 ===========================
 
 <App.../>
-    
-    <LoginForm.../> (route: '/login')- displays if user has not logged in, even if user tries to enter a different url.
-                    For starters just a dropdown with a list of users to select. Once user has logged in, this will be hidden.
-    
-    <ErrorPage .../> no topnav here if user hasn't logged in yet. 
+    GET authedUser
+        IF user not authed, redirect to '/login' regardless of what url user enters
+        Hide <TopNav.../> if user is not logged in
 
-    <TopNav.../> - obvious. Check rubric
+    <LoginForm.../> (route: '/login')- 
+                    
+                    No <TopNav.../>
+                    
+                    displays if user has not logged in, even if user tries to enter a different url.
+                    For starters just a dropdown with a list of users to select. Once user has logged in, this will be hidden.
+                    
+                    GET list of users
+                    SET authedUser
     
+    
+
+    <TopNav.../> - obvious. Check rubric. 
+        In addition to nav links, need element showing logged in user and logout button.
+        If user selects logout button, empty authedUser then redirect to '/login'
+
+        props: authedUser
+        
+
+    
+    <ErrorPage .../>
+        
     
     <Main.../> Main page/Home (route: '/')
-        <Tab../>
-            <QuestionList... (answered)/> ( takes a "type" prop for showing answered or unanswered polls?)
+        GET questions
+        GET authedUser
+
+        <Tab.../>(Reactstrap tab group)
+            <QuestionList... (unanswered, displays as default)/> ( takes a "type" prop for showing answered or unanswered polls?)
+                <Link to ViewQuestion...>
+                
                 <Question.../> ( )
-        <Tab.../>
-            <QuestionList... (unanswered)/> ( takes a "type" prop for showing answered or unanswered polls?)
-                <Question.../> ( )
+                    Allow user to select an answere
+                    SAVE answer to question
+        
+        <Tab../>(Reactstrap tab group)
+            <QuestionList... ()/> (questions filtered for answered BY USER, ordered by timestamp -  takes a "type" prop for showing answered or unanswered polls?)
+                <Question.../> (Link to /question/:question_id )
+                    hide selection option if user 
+
+        
             
 
     <ViewQuestion.../> (route: '/question/:question_id')
+            GET question
+                IF question_id not available, redirect to Error/404 page
+
             <Question.../>
+                If not answere
     
     <Leaderboard.../> (route: '/leaderboard')
+        GET users
+        GET questions
     
     <NewPoll.../> (route: '/add')
+        SAVE question
 
 
         
@@ -41,22 +77,47 @@ question info
 Which componenets should access store via "connect()"? (these would be considered "containers" I think)
 =========================================================================================================    
 <App>
+    Needs READ authedUser, redirect to '/login' if not loggedin.
+
+<TopNav>
+    Needs authedUser,
+    Will clear (UNSET) authedUser via "logout" button
+
 <LoginForm>
+    Needs user list, authed user
+        Allow user to select a user, then SET the authedUser store
 <Main>
+    Needs everything
+
+<ViewQuestion>
+    Needs to read question, authedUser
+
 <Leaderboard>
+    Needs everything
+
 <NewPoll>
+    Needs authedUser
 
 Actions:
 ========
-handleLogin
+handleDoLogin
     set authedUser in store
-handleLogout
+        doLoginAction()
+handleDoLogout
     remove authedUser from store
+        doLogoutAction()
 
-handleInitialData - "shared" action?
+handleGetInitialData - "shared" action?
     get all questions and user info
+        getInitialDataAction()
 
 handleAnswerQuestion - save here?
+    answerQuestionAction()
+
+handleGetUser
+    getUserAction()
+handleGetQuestion
+    getQuestionAction()
 
 
 
@@ -69,9 +130,10 @@ DO_LOGOUT
     authedUser = ''
 
 FETCH_QUESTIONS
-    questions
+    questions (array of question_ids, returns all if question_id arry empty)
+
 FETCH_USERS
-    users
+    users (array of user ids, returns all if array empty)
 
 
 Possible state/store objects:
@@ -80,6 +142,9 @@ Possible state/store objects:
 {
     authedUser
 
+    authors
+
+    questions
 
 }
 
