@@ -7,29 +7,25 @@ import Leaderboard from './Leaderboard'
 import NewPoll from './NewPoll'
 import LoginForm from './LoginForm'
 
-
-
+// Will use the following to build out our routing, and to send to TopNav.js to use for the navigation items
+const routeData = [
+  {navTo:'/', navText:'Main', component: Main, isNavItem: true},
+  {navTo:'/question/:question_id', navText:'Question', component: ViewQuestion, isNavItem: false},
+  {navTo:'/leaderboard', navText:'Leaderboard', component: Leaderboard, isNavItem: true},
+  {navTo:'/add', navText:'New Poll', component: NewPoll, isNavItem: true},
+  {navTo:'/login', navText:'Login', component: LoginForm, isNavItem: true},
+  {navTo:'/logout', navText:'Logout', component: LoginForm, isNavItem: true}//bring up login form after user logs out?
+];
 
 class App extends Component {
-
   render() {
-    // Will use the following to build out our routing, and to send to TopNav.js to use for the navigation items
-    const navItems = [
-      {navTo:'/', navText:'Main', component: Main, isNavItem: true},
-      {navTo:'/question/:question_id', navText:'Question', component: ViewQuestion, isNavItem: false},
-      {navTo:'/leaderboard', navText:'Leaderboard', component: Leaderboard, isNavItem: true},
-      {navTo:'/add', navText:'New Poll', component: NewPoll, isNavItem: true},
-      {navTo:'/login', navText:'Login', component: LoginForm, isNavItem: true},
-      {navTo:'/logout', navText:'Logout', component: LoginForm, isNavItem: true}//bring up login form after user logs out?
-    ];
-    console.log("navItems? ", navItems)
     return (
         <BrowserRouter>
           <Fragment>
             {/*<LoadingBar/>*/}
-            <div className={'container'}>
-              <TopNav navItems={navItems}/>
-              {navItems.map((item, i) => {
+            <div>
+              <TopNav navItems={routeData.map(item => ({navTo: item.navTo, navText:item.navText, isNavItem:item.isNavItem}))}/>
+              {routeData.map((item, i) => {
                   const { navTo, navText, component} = item
 
                   return (
@@ -41,7 +37,7 @@ class App extends Component {
         </BrowserRouter>
 
 
-      
+
     );
   }
 }

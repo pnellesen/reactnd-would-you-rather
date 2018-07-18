@@ -20,31 +20,11 @@ import {
 
 class TopNav extends Component {
 
-    /* Not needed for ES6 (?)
-    constructor(props) {
-		super(props);
-		this.toggle = this.toggle.bind(this);
-                this.toggleCollapse = this.toggleCollapse.bind(this);
-                this.togglerRef = null;
-                this.state = {
-                    isOpen: false
-                };
-		console.log("Props: %O", props );
-
-    };
-    */
-
-    /*const navItemLinks = navItems.map((item, i) =>
-        <NavItem key={i}>
-            <NavLink tag={Link} to={item.navTo}>{item.navText}</NavLink>
-        </NavItem>
-    );*/
-
     state = {
         isOpen: false
     };
 
-	toggle() {
+    toggle() {
 	    this.setState({
 	      isOpen: !this.state.isOpen
 	    });
@@ -59,8 +39,6 @@ class TopNav extends Component {
 
 	render () {
         const { navItems } = this.props;
-        
-        console.log("TopNav - navItems? ", this.props)
 		return (
 			<div>
 	        <Navbar color="dark" dark expand="md">
