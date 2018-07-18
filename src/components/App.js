@@ -1,22 +1,9 @@
 import React, { Component , Fragment} from 'react';
+import PropTypes from 'prop-types';
 import { BrowserRouter, Route } from 'react-router-dom'
 import { connect } from 'react-redux'
 import TopNav from './TopNav'
-import Main from './Main'
-import ViewQuestion from './ViewQuestion'
-import Leaderboard from './Leaderboard'
-import NewPoll from './NewPoll'
-import LoginForm from './LoginForm'
-
-// Will use the following to build out our routing, and to send to TopNav.js to use for the navigation items
-const routeData = [
-  {navTo:'/', navText:'Main', component: Main, isNavItem: true},
-  {navTo:'/question/:question_id', navText:'Question', component: ViewQuestion, isNavItem: false},
-  {navTo:'/leaderboard', navText:'Leaderboard', component: Leaderboard, isNavItem: true},
-  {navTo:'/add', navText:'New Poll', component: NewPoll, isNavItem: true},
-  {navTo:'/login', navText:'Login', component: LoginForm, isNavItem: true},
-  {navTo:'/logout', navText:'Logout', component: LoginForm, isNavItem: true}//bring up login form after user logs out?
-];
+import { routeData, linkData } from '../api/_RoutingData'
 
 class App extends Component {
   render() {
@@ -25,7 +12,7 @@ class App extends Component {
           <Fragment>
             {/*<LoadingBar/>*/}
             <div>
-              <TopNav navItems={routeData.map(item => ({navTo: item.navTo, navText:item.navText, isNavItem:item.isNavItem}))}/>
+              <TopNav navItems={linkData()}/>
               {routeData.map((item, i) => {
                   const { navTo, component} = item
 
@@ -44,3 +31,7 @@ class App extends Component {
 }
 
 export default connect()(App);
+
+App.propTypes = {
+  authedUser: PropTypes.string.isRequired
+}
