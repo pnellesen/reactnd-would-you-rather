@@ -1,5 +1,6 @@
 import React, { Component , Fragment} from 'react';
 import { BrowserRouter, Route } from 'react-router-dom'
+import { connect } from 'react-redux'
 import TopNav from './TopNav'
 import Main from './Main'
 import ViewQuestion from './ViewQuestion'
@@ -26,7 +27,7 @@ class App extends Component {
             <div>
               <TopNav navItems={routeData.map(item => ({navTo: item.navTo, navText:item.navText, isNavItem:item.isNavItem}))}/>
               {routeData.map((item, i) => {
-                  const { navTo, navText, component} = item
+                  const { navTo, component} = item
 
                   return (
                     <Route key={i} exact={navTo === '/' ? true: false} path={navTo} component={component}/>
@@ -42,4 +43,4 @@ class App extends Component {
   }
 }
 
-export default App;
+export default connect()(App);
