@@ -5,15 +5,10 @@ export default function authedUser (state=null, action) {
         case GET_AUTHED_USER:
             return action.authedUser || null
         case SET_AUTHED_USER:
-            return {
-                ...state,
-                authedUser: action.userId
-            }
+            return action['userInfo'].userId
         case DO_LOGOUT:
-            return {
-                ...state,
-                authedUser: null
-            }
+            console.log("DO_LOGOUT - action: ", action)
+            return null
        default:
            return state
      }

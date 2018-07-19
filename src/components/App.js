@@ -20,7 +20,7 @@ class App extends Component {
 
 
   render() {
-  
+
     // From Tyler's blog: https://tylermcginnis.com/react-router-protected-routes-authentication/
     const PrivateRoute = ({ component: Component, ...rest }) => (
       <Route {...rest} render={(props) => (
@@ -35,7 +35,7 @@ class App extends Component {
           <Fragment>
             {/*<LoadingBar/>*/}
             <div>
-              {this.props.authedUser !== null && <TopNav navItems={linkData()}/>}
+              <TopNav navItems={linkData()} disabled={this.props.authedUser === null}/>
               <Route path={'/login'} component={LoginForm}/>
               {routeData.map((item, i) => {
                  const { navTo, component} = item
@@ -44,7 +44,7 @@ class App extends Component {
                   )
               })}
             </div>
-            
+
           </Fragment>
         </BrowserRouter>
 
@@ -55,8 +55,7 @@ class App extends Component {
 }
 
 const mapStateToProps = ({ authedUser }) => {
- console.log("mapStatetoProps: authedUser - ", authedUser);
- return { authedUser: 'pnellesen' }
+ return { authedUser: authedUser }
 }
 
 
