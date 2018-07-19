@@ -21,12 +21,15 @@ class App extends Component {
 
   render() {
 
-    // From Tyler's blog: https://tylermcginnis.com/react-router-protected-routes-authentication/
+    // This from Tyler's blog: https://tylermcginnis.com/react-router-protected-routes-authentication/
     const PrivateRoute = ({ component: Component, ...rest }) => (
       <Route {...rest} render={(props) => (
         this.props.authedUser !== null
           ? <Component {...props} />
-          : <Redirect to='/login' />
+          : <Redirect to={{
+            pathname: '/login',
+            state: {from: props.location}
+          }} />
       )} />
     )
 

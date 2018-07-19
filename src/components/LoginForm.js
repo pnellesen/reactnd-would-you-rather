@@ -1,24 +1,31 @@
 import React, { Component } from 'react';
+import { Redirect } from 'react-router-dom'
 import { connect } from 'react-redux'
 import { handleSetAuthedUser } from '../actions/authedUser'
 //import { withRouter } from 'react-router-dom'
 
 class LoginForm extends Component {
-  componentDidMount() {
-    console.log("login form mounted");
-    
+
+  doAuth = () => {
+    this.props.dispatch(handleSetAuthedUser({userId: 'pnellesen'}))
   }
+
   render() {
-    const { dispatch } = this.props;
+    const { from } = this.props.location.state || { from: {pathname: '/'}}
+    const { authedUser } = this.props
+    if (authedUser !== null ) {
+      return <Redirect to={from}/>
+    }
+
     return (
       <div><h1>Log in form here</h1>
-      
-        <button onClick={()=>dispatch(handleSetAuthedUser({userId: 'pnellesen'}))}>Login</button>
-      
+        <button onClick={()=> this.doAuth()}>Login</button>
       </div>
     );
   }
 }
+const mapStateToProps = ({ authedUser }) => {
+  return { authedUser: authedUser }
+ }
 
-//export default withRouter(connect()(LoginForm));
-export default connect()(LoginForm)
+export default connect(mapStateToProps)(LoginForm)
