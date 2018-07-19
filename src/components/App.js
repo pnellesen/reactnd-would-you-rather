@@ -7,17 +7,11 @@ import { routeData, linkData } from '../api/_RoutingData'
 import { handleFetchAuthedUser } from '../actions/authedUser'
 import LoginForm from './LoginForm';
 
-
-
-
 class App extends Component {
-  componentDidMount() {
+  componentWillMount() {
     this.props.dispatch(handleFetchAuthedUser())
     console.log("componentDidMount. props?: ", this.props)
   }
-
-
-
 
   render() {
 
@@ -38,7 +32,7 @@ class App extends Component {
           <Fragment>
             {/*<LoadingBar/>*/}
             <div>
-              <TopNav navItems={linkData()} disabled={this.props.authedUser === null}/>
+              <TopNav navItems={linkData()}/>
               <Route path={'/login'} component={LoginForm}/>
               {routeData.map((item, i) => {
                  const { navTo, component} = item
@@ -50,9 +44,6 @@ class App extends Component {
 
           </Fragment>
         </BrowserRouter>
-
-
-
     );
   }
 }
@@ -60,7 +51,6 @@ class App extends Component {
 const mapStateToProps = ({ authedUser }) => {
  return { authedUser: authedUser }
 }
-
 
 export default connect(mapStateToProps)(App);
 

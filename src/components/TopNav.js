@@ -42,14 +42,14 @@ class TopNav extends Component {
     }
 
 	render () {
-        const { navItems, disabled, dispatch } = this.props;
+        const { navItems, disabled, dispatch, authedUser } = this.props;
 		return (
 			<div>
 	        <Navbar color="dark" dark expand="md">
                 <NavbarBrand tag={Link} to={'/'} exact={'true'}  onClick={(e) => this.toggleCollapse(e)}>
 				Would you rather</NavbarBrand>
                 <div ref={(togglerNode) => {this.togglerRef = togglerNode}}><NavbarToggler onClick={(e) => this.toggle(e)} /></div>
-	            <Collapse isOpen={this.state.isOpen} navbar>
+	            <Collapse style={{justifyContent: 'space-between'}} isOpen={this.state.isOpen} navbar>
 	            <Nav className="" navbar>{
                     navItems.filter((item) => item.isNavItem).map((item, i) => {
 						const { navTo, navText } = item
@@ -62,11 +62,23 @@ class TopNav extends Component {
 					<NavItem key={'logout'}>
                        <NavLink tag={Link} disabled={disabled} to={'/login'} onClick={(e) => {this.toggleCollapse(e);dispatch(handleDoLogout())}}>Logout</NavLink>
                     </NavItem>
+
                 </Nav>
-	          </Collapse>
+				{!disabled && <span style={{float: 'right',color: 'white'}}>Logged in as {authedUser}</span>}
+			  </Collapse>
+
 	        </Navbar>
 	      </div>
 		)
 	}
 }
-export default connect()(TopNav)
+
+const mapStateToProps = ({ authedUser }, {navItems}) => {
+	return {
+		authedUser: authedUser,
+		navItems: navItems,
+		disabled: authedUser === null
+	 }
+   }
+
+export default connect(mapStateToProps)(TopNav)
