@@ -13,24 +13,37 @@ class LoginForm extends Component {
 
   render() {
     const { from } = this.props.location.state || { from: {pathname: '/'}}
-    const { authedUser } = this.props
+    const { authedUser, users } = this.props
     if (authedUser !== null ) {
       return <Redirect to={from}/>
     }
 
     return (
       <div><h1>Log in form here</h1>
-        <button onClick={()=> this.doAuth()}>Login</button>
+
+        {Object.keys(users).length > 0 ? (
+          <div><p>Please select a user</p>
+          <ul>
+            {Object.keys(users).map((userId) => <li key={userId}>{users[userId].name}</li>)}
+          </ul>
+          <button onClick={()=> this.doAuth()}>Login</button>
+          </div>
+
+        ) : (<p>...Loading data, please wait</p>)}
       </div>
     );
   }
 }
-const mapStateToProps = ({ authedUser }) => {
-  return { authedUser: authedUser }
+const mapStateToProps = ({ authedUser, users }) => {
+  return {
+    authedUser: authedUser,
+    users: users
+   }
  }
 
 export default connect(mapStateToProps)(LoginForm)
 
 LoginForm.propTypes = {
-	authedUser: PropTypes.string,
+  authedUser: PropTypes.string,
+  users: PropTypes.object.isRequired
 }
