@@ -1,6 +1,7 @@
 // This file copied from a personal project I did before starting the React Nanodegree
 // https://github.com/pnellesen/reactjs-cart-demo/blob/master/src/components/TopNav.js
 import React, { Component } from 'react';
+import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
 import { connect } from 'react-redux'
 import { handleDoLogout } from '../actions/authedUser'
@@ -12,11 +13,8 @@ import {
 	  NavbarBrand,
 	  Nav,
 	  NavItem,
-	  NavLink,
-	  UncontrolledDropdown,
-	  DropdownToggle,
-	  DropdownMenu,
-	  DropdownItem } from 'reactstrap';
+	  NavLink
+} from 'reactstrap';
 
 
 
@@ -36,7 +34,7 @@ class TopNav extends Component {
 	toggleCollapse(e) {
 	  	this.props.disabled && e.preventDefault();// "disabled" attribute doesn't work in <NavbarBrand> - do this instead as a workaround
 		var togglerDisplay = window.getComputedStyle(this.togglerRef.firstElementChild).getPropertyValue("display");
-        if (this.state.isOpen && togglerDisplay != 'none') {
+        if (this.state.isOpen && togglerDisplay !== 'none') {
             this.setState({isOpen: !this.state.isOpen});
 		}
     }
@@ -82,3 +80,9 @@ const mapStateToProps = ({ authedUser }, {navItems}) => {
    }
 
 export default connect(mapStateToProps)(TopNav)
+
+TopNav.propTypes = {
+	authedUser: PropTypes.string,
+	navItems: PropTypes.array,
+	disabled: PropTypes.bool
+}

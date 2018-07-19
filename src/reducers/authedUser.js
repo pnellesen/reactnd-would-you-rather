@@ -7,7 +7,6 @@ export default function authedUser (state=null, action) {
         case SET_AUTHED_USER:
             return action['userInfo'].userId
         case DO_LOGOUT:
-            console.log("DO_LOGOUT - action: ", action)
             return null
        default:
            return state

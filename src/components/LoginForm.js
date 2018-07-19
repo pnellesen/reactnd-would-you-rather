@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import PropTypes from 'prop-types';
 import { Redirect } from 'react-router-dom'
 import { connect } from 'react-redux'
 import { handleSetAuthedUser } from '../actions/authedUser'
@@ -29,3 +30,7 @@ const mapStateToProps = ({ authedUser }) => {
  }
 
 export default connect(mapStateToProps)(LoginForm)
+
+LoginForm.propTypes = {
+	authedUser: PropTypes.string,
+}

@@ -10,7 +10,6 @@ import LoginForm from './LoginForm';
 class App extends Component {
   componentWillMount() {
     this.props.dispatch(handleFetchAuthedUser())
-    console.log("componentDidMount. props?: ", this.props)
   }
 
   render() {
@@ -55,5 +54,6 @@ const mapStateToProps = ({ authedUser }) => {
 export default connect(mapStateToProps)(App);
 
 App.propTypes = {
-  authedUser: PropTypes.string
+  authedUser: PropTypes.string,
+  location: PropTypes.object
 }
