@@ -48,19 +48,19 @@ class TopNav extends Component {
 	        <Navbar color="dark" dark expand="md">
                 <NavbarBrand tag={Link} to={'/'} exact={'true'}  onClick={(e) => this.toggleCollapse(e)}>
 				Would you rather</NavbarBrand>
-                <div ref={(togglerNode) => {this.togglerRef = togglerNode}}><NavbarToggler onClick={() => this.toggle()} /></div>
+                <div ref={(togglerNode) => {this.togglerRef = togglerNode}}><NavbarToggler onClick={(e) => this.toggle(e)} /></div>
 	            <Collapse isOpen={this.state.isOpen} navbar>
 	            <Nav className="" navbar>{
                     navItems.filter((item) => item.isNavItem).map((item, i) => {
 						const { navTo, navText } = item
                         return (
                             <NavItem key={i}>
-                                <NavLink tag={Link} exact={navTo === '/' ? 'true': 'false'} disabled={disabled} to={navTo} onClick={() => this.toggleCollapse()}>{navText}</NavLink>
+                                <NavLink tag={Link} exact={navTo === '/' ? 'true': 'false'} disabled={disabled} to={navTo} onClick={(e) => this.toggleCollapse(e)}>{navText}</NavLink>
                             </NavItem>
                         )
 					})}
 					<NavItem key={'logout'}>
-                       <NavLink tag={Link} disabled={disabled} to={'/login'} onClick={() => {this.toggleCollapse();dispatch(handleDoLogout())}}>Logout</NavLink>
+                       <NavLink tag={Link} disabled={disabled} to={'/login'} onClick={(e) => {this.toggleCollapse(e);dispatch(handleDoLogout())}}>Logout</NavLink>
                     </NavItem>
                 </Nav>
 	          </Collapse>
