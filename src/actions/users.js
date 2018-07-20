@@ -26,7 +26,6 @@ export function handleFetchUsers() {
     return (dispatch) => {
         dispatch(showLoading())
         return _getUsers().then((users) => {
-            console.log("fetchUsers: ", users)
             dispatch(fetchUsers(users));
             dispatch(hideLoading())
         })

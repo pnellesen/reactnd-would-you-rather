@@ -26,7 +26,6 @@ export function handleFetchQuestions() {
     return (dispatch) => {
         dispatch(showLoading())
         return _getQuestions().then((questions) => {
-            console.log("fetchQuestions: ", questions)
             dispatch(fetchQuestion(questions));
             dispatch(hideLoading())
         })

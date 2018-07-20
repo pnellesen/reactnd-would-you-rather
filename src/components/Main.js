@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
+import QuestionList from './QuestionList'
 import { connect } from 'react-redux'
 import { handleFetchQuestions } from '../actions/questions';
 
@@ -9,26 +10,16 @@ class Main extends Component {
   }
 
   render() {
-    const { qAnswered, qUnanswered, authedUser } = this.props;
+    const { qAnswered, qUnanswered, questions } = this.props;
     return (
       <div className={'container'}>
-        <h3>Questions you have not yet answered:</h3>
-        <ul>
-        {qUnanswered && Object.keys(qUnanswered).map((answer) => <li key={answer}>{qUnanswered[answer]['optionOne'].text} or {qUnanswered[answer]['optionTwo'].text}?</li>)}
-        </ul>
+        {Object.keys(questions).length > 0 ? (
+        <div><h3>Questions you have not yet answered:</h3>
+        <QuestionList questions={qUnanswered}/>
         <h3>Questions you have answered:</h3>
-        <ul>
-        {qAnswered && Object.keys(qAnswered).map((answer) => {
-            const optionOne = qAnswered[answer]['optionOne']
-            const optionTwo = qAnswered[answer]['optionTwo']
-            const qOneStyle = optionOne.votes.includes(authedUser) ? 'qAnswered' : ''
-            const qTwoStyle = optionTwo.votes.includes(authedUser) ? 'qAnswered' : ''
-            return <li key={answer}><span className={qOneStyle}>{optionOne.text}</span> or <span className={qTwoStyle}>{optionTwo.text}</span>?</li>}
-          )}
-        </ul>
-
-      </div>
-
+        <QuestionList questions={qAnswered}/></div>
+       ) : <h3>Loading questions...</h3>}
+       </div>
     );
   }
 }
@@ -57,7 +48,6 @@ const mapStateToProps = ({ questions, users, authedUser }) => {
   }, {});
 
   return {
-    authedUser: authedUser,
     questions: questions,
     qAnswered: qAnswered,
     qUnanswered: qUnanswered
@@ -67,7 +57,7 @@ const mapStateToProps = ({ questions, users, authedUser }) => {
 export default connect(mapStateToProps)(Main);
 
 Main.propTypes = {
-  authedUser: PropTypes.string,
+  questions: PropTypes.object.isRequired,
   qAnswered: PropTypes.object,
   qUnanswered: PropTypes.object
 }
