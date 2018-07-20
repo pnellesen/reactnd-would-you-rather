@@ -40,7 +40,7 @@ class TopNav extends Component {
     }
 
 	render () {
-        const { navItems, disabled, dispatch, authedUser } = this.props;
+        const { navItems, disabled, dispatch, authedUser, users } = this.props;
 		return (
 			<div>
 	        <Navbar color="dark" dark expand="md">
@@ -62,7 +62,7 @@ class TopNav extends Component {
                     </NavItem>
 
                 </Nav>
-				{!disabled && <span style={{float: 'right',color: 'white'}}>Logged in as {authedUser}</span>}
+				{!disabled && <span style={{float: 'right',color: 'white'}}>Logged in as {users[authedUser].name}</span>}
 			  </Collapse>
 
 	        </Navbar>
@@ -71,9 +71,10 @@ class TopNav extends Component {
 	}
 }
 
-const mapStateToProps = ({ authedUser }, {navItems}) => {
+const mapStateToProps = ({ authedUser, users }, {navItems}) => {
 	return {
 		authedUser: authedUser,
+		users: users,
 		navItems: navItems,
 		disabled: authedUser === null
 	 }
@@ -83,6 +84,7 @@ export default connect(mapStateToProps)(TopNav)
 
 TopNav.propTypes = {
 	authedUser: PropTypes.string,
+	users: PropTypes.object,
 	navItems: PropTypes.array,
 	disabled: PropTypes.bool
 }

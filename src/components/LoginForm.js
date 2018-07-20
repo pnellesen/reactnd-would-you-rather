@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
+import { Button } from 'reactstrap';
 import { Redirect } from 'react-router-dom'
 import { connect } from 'react-redux'
 import { handleSetAuthedUser } from '../actions/authedUser'
@@ -7,8 +8,10 @@ import { handleSetAuthedUser } from '../actions/authedUser'
 
 class LoginForm extends Component {
 
-  doAuth = () => {
-    this.props.dispatch(handleSetAuthedUser({userId: 'pnellesen'}))
+  doAuth = (userId) => {
+
+    console.log("doAuth = userId: ", userId);
+    this.props.dispatch(handleSetAuthedUser({userId: userId}))
   }
 
   render() {
@@ -24,9 +27,8 @@ class LoginForm extends Component {
         {Object.keys(users).length > 0 ? (
           <div><p>Please select a user</p>
           <ul>
-            {Object.keys(users).map((userId) => <li key={userId}>{users[userId].name}</li>)}
+            {Object.keys(users).map((userId) => <li key={userId}><Button color="link" onClick={() => this.doAuth(userId)}>{users[userId].name}</Button></li>)}
           </ul>
-          <button onClick={()=> this.doAuth()}>Login</button>
           </div>
 
         ) : (<p>...Loading data, please wait</p>)}

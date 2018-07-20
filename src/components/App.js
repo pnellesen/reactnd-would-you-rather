@@ -7,6 +7,7 @@ import TopNav from './TopNav'
 import { routeData, linkData } from '../api/_RoutingData'
 import { handleFetchUsers } from '../actions/users'
 import LoginForm from './LoginForm';
+import '../App.css'
 
 class App extends Component {
   componentDidMount() {
