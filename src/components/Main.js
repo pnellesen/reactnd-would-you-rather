@@ -12,7 +12,7 @@ class Main extends Component {
   render() {
     const { qAnswered, qUnanswered, questions } = this.props;
     return (
-      <div className={'container'}>
+      <div>
         {Object.keys(questions).length > 0 ? (
         <div><h3>Questions you have not yet answered:</h3>
         <QuestionList questions={qUnanswered}/>

@@ -26,7 +26,19 @@ export function handleFetchUsers() {
     return (dispatch) => {
         dispatch(showLoading())
         return _getUsers().then((users) => {
-            dispatch(fetchUsers(users));
+            /**
+             * This is where we insert fields for total number of questions asked, answered, and
+             * the sum of both, rather than do it in a component.
+             * This has the effect of changing the object keys to the position of the new user
+             * object in the array. Not sure if that could end up being a problem or not - does
+             * not seem to have an adverse effect anywhere else.
+             */
+            const modifiedUsers = Object.keys(users).map((user) => {
+                const totalAnswers = Object.keys(users[user].answers).length;
+                const totalQuestions = users[user].questions.length;
+                return {...users[user], asked: totalQuestions, answered: totalAnswers, total: totalAnswers + totalQuestions}
+            })
+            dispatch(fetchUsers(modifiedUsers));
             dispatch(hideLoading())
         })
     }

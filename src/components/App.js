@@ -34,7 +34,7 @@ class App extends Component {
           <Fragment>
             <TopNav navItems={linkData()}/>
             <LoadingBar/>
-            <div>
+            <div className={'container'}>
               <Route path={'/login'} component={LoginForm}/>
               {routeData.map((item, i) => {
                  const { navTo, component} = item

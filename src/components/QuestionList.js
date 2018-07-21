@@ -20,9 +20,9 @@ function QuestionList(props) {
         )
 }
 
-const mapStateToProps = ({authedUser}, {questions}) => {
+const mapStateToProps = ({authedUser, users}, {questions}) => {
   return {
-    authedUser: authedUser,
+    authedUser: users[authedUser].id,
     question: questions
   }
 }

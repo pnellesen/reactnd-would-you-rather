@@ -27,8 +27,12 @@
   to { transform: rotate(360deg); }
 }
 
-.qAnswered {
+.qAnswered, .isBold {
   font-weight: bold;
+}
+
+.authedUserRow {
+  background-color: lightgray;
 }
 
 .container {
