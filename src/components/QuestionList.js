@@ -1,5 +1,7 @@
 import React from 'react'
+import { Link } from 'react-router-dom';
 import { connect } from 'react-redux'
+
 
 function QuestionList(props) {
         const { questions, authedUser } = props;
@@ -13,7 +15,7 @@ function QuestionList(props) {
             const qOneStyle = optionOne.votes.includes(authedUser) ? 'qAnswered' : ''
             const qTwoStyle = optionTwo.votes.includes(authedUser) ? 'qAnswered' : ''
 
-            return <li key={answer}><span className={qOneStyle}>{optionOne.text}</span> or <span className={qTwoStyle}>{optionTwo.text}</span>? (asked on {qDate})</li>}
+            return <li key={answer}><Link to={`/question/${questions[answer].id}`}><span className={qOneStyle}>{optionOne.text}</span> or <span className={qTwoStyle}>{optionTwo.text}</span>? (asked on {qDate})</Link></li>}
 
           )}
           </ul>
