@@ -36,13 +36,12 @@ class App extends Component {
             <div className={'container'}>
               <Route path={'/login'} component={LoginForm}/>
               {routeData.map((item, i) => {
-                 const { navTo, component} = item
+                 const { navTo, component, exact} = item
                   return (
-                    <PrivateRoute key={i} exact={navTo === '/' ? true: false} path={navTo} component={component}/>
+                    <PrivateRoute key={i} exact={exact} path={navTo} component={component}/>
                   )
               })}
             </div>
-
           </Fragment>
         </BrowserRouter>
     );
