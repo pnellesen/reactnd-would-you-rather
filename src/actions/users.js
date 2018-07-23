@@ -1,12 +1,8 @@
 /**
  * Note: the following will eventually go into a "shared" file, along with question loading, but for now we'll keep in here
  */
-import { showLoading, hideLoading } from 'react-redux-loading'
 import {
     _getUsers,
-    //_getTweets,
-    //_saveLikeToggle,
-    //_saveTweet,
   } from '../api/_DATA.js'
 
 
@@ -24,7 +20,6 @@ export function fetchUsers(users) {
 
 export function handleFetchUsers() {
     return (dispatch) => {
-        dispatch(showLoading())
         return _getUsers().then((users) => {
             /**
              * This is where we insert fields for total number of questions asked, answered, and
@@ -40,7 +35,6 @@ export function handleFetchUsers() {
                 return obj;
               }, {});
             dispatch(fetchUsers(modifiedUsers));
-            dispatch(hideLoading())
         })
     }
 }

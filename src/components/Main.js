@@ -2,13 +2,8 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import QuestionList from './QuestionList'
 import { connect } from 'react-redux'
-import { handleFetchQuestions } from '../actions/questions';
 
 class Main extends Component {
-  componentDidMount() {
-    Object.keys(this.props.questions).length === 0 && this.props.dispatch(handleFetchQuestions())
-  }
-
   render() {
     const { qAnswered, qUnanswered, questions } = this.props;
     return (

@@ -5,14 +5,13 @@ import { connect } from 'react-redux'
 import LoadingBar from 'react-redux-loading'
 import TopNav from './TopNav'
 import { routeData, linkData } from '../api/_RoutingData'
-import { handleFetchUsers } from '../actions/users'
+import {handleInitialData} from '../actions/shared'
 import LoginForm from './LoginForm';
 import '../App.css'
 
 class App extends Component {
   componentDidMount() {
-    this.props.dispatch(handleFetchUsers())
-    //console.log("App mounted - authedUser? ", this.props.authedUser)
+    this.props.dispatch(handleInitialData())
   }
 
   render() {
