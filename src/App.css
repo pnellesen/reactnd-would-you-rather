@@ -27,6 +27,7 @@
   to { transform: rotate(360deg); }
 }
 
+/* Personal styles here */
 .qAnswered, .isBold {
   font-weight: bold;
 }
@@ -37,4 +38,12 @@
 
 .container {
   margin: 20px;
+}
+
+button.disabled:hover {
+  cursor: not-allowed
+}
+
+input[type=checkbox], input[type=radio] {
+  cursor: pointer
 }
