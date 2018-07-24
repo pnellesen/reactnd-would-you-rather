@@ -1,12 +1,11 @@
-import React, { Component } from 'react';
+import React from 'react';
 
-
-class ErrorPage extends Component {
-  render() {
+function ErrorPage(props)  {
     return (
-      <div><h1>Error/404 component here</h1></div>
+      <div>
+        <h1>Error/404 component here</h1>
+      </div>
     );
-  }
 }
 
 export default ErrorPage;

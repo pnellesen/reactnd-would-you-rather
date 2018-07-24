@@ -11,8 +11,7 @@ export const routeData = [
   {navTo:'/question/:question_id', navText:'Question', component: ViewQuestion, isNavItem: false, exact: false},
   {navTo:'/question', navText:'Question', component: ViewQuestion, isNavItem: false, exact: true},
   {navTo:'/leaderboard', navText:'Leaderboard', component: Leaderboard, isNavItem: true, exact: false},
-  {navTo:'/add', navText:'New Poll', component: NewPoll, isNavItem: true, exact: false},
-  //{navTo:'/error', navText:'Error', component: ErrorPage, isNavItem: false, exact: false},
+  {navTo:'/add', navText:'New Poll', component: NewPoll, isNavItem: true, exact: false}
 ];
 
 export function linkData() {
