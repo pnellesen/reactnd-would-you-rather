@@ -47,3 +47,7 @@ button.disabled:hover {
 input[type=checkbox], input[type=radio] {
   cursor: pointer
 }
+
+ol.poll li:not(:first-child) {
+  margin-top: 10px
+}

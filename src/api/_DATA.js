@@ -157,7 +157,7 @@ export function _saveQuestion (question) {
         ...questions,
         [formattedQuestion.id]: formattedQuestion
       }
-      
+
       users = {
         ...users,
         [authedUser]: {
@@ -195,7 +195,7 @@ export function _saveQuestionAnswer ({ authedUser, qid, answer }) {
           }
         }
       }
-
+      console.log("_saveQuestionAnswer: ", [users, questions]);
       res()
     }, 500)
   })

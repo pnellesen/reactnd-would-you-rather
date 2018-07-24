@@ -1,24 +1,29 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux'
 import { Button  } from 'reactstrap';
+import {handleAnswerQuestion} from '../actions/shared'
 
 
 class ViewQuestion extends Component {
   state = {
-    answer: ''
+    answer: '',
+    showWaitingMessage: null
   };
 
   _onSubmit = (evt) => {
     evt.preventDefault();
-    console.log("submit - answser? ", this.state, " - props: ", this.props);
+    this.setState({showWaitingMessage: true})
+    this.props.dispatch(handleAnswerQuestion({authedUser: this.props.authedUser, qid: this.props.question_id, answer: this.state.answer})).then(() => {this.setState({showWaitingMessage: false})})
   }
+
+
 
   _handleAnswerChange = (evt) => {
     this.setState({answer: evt.target.value})
   }
   render() {
-    const { question_id, question, authedUser, votes1, votes2, authorName, hasAnswered } = this.props
-    const {answer} = this.state
+    const { question_id, question, authedUser, votes1, votes2, authorName, hasAnswered, isSaving } = this.props
+    const {answer, showWaitingMessage} = this.state
     return (
       (question) ?
       <div>
@@ -33,6 +38,7 @@ class ViewQuestion extends Component {
           </fieldset>
           { !hasAnswered && <Button title={answer === '' ? 'Please choose an option' : ''} disabled={answer === ''}>Vote!</Button> }
         </form>
+        {(showWaitingMessage === true || isSaving) ? <p>Saving answer...</p> : (!isSaving && showWaitingMessage === false) && <p>Your vote saved!</p>}
       </div>
     :
       <div>
@@ -44,7 +50,7 @@ class ViewQuestion extends Component {
   }
 }
 
-const mapStateToProps = ({ authedUser, questions, users }, { match }) => {
+const mapStateToProps = ({ authedUser, questions, users, loadingBar }, { match }) => {
   const question_id = match.params.question_id;
   const question = questions[question_id];
   const votes1 = question ? question.optionOne.votes : []
@@ -58,7 +64,8 @@ const mapStateToProps = ({ authedUser, questions, users }, { match }) => {
     hasAnswered: hasAnswered,
     authorName: authorName,
     votes1: votes1,
-    votes2: votes2
+    votes2: votes2,
+    isSaving: loadingBar.default
   }
  }
 
