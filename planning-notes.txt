@@ -1,0 +1,183 @@
+Views/Components needed
+===========================
+
+<App.../>
+    GET authedUser
+        IF user not authed, redirect to '/login' regardless of what url user enters
+        Hide <TopNav.../> if user is not logged in
+
+    <LoginForm.../> (route: '/login')- 
+                    
+                    No <TopNav.../>
+                    
+                    displays if user has not logged in, even if user tries to enter a different url.
+                    For starters just a dropdown with a list of users to select. Once user has logged in, this will be hidden.
+                    
+                    GET list of users
+                    SET authedUser
+    
+    
+
+    <TopNav.../> - obvious. Check rubric. Hidden if url is '/login'
+        In addition to nav links, need element showing logged in user and logout button.
+        If user selects logout button, empty authedUser then redirect to '/login'
+
+        props: authedUser
+        
+  
+    <ErrorPage .../>
+        
+    
+    <Main.../> Main page/Home (route: '/')
+        GET questions
+        GET authedUser
+
+        <Tab.../>(Reactstrap tab group)
+            <table>
+            <QuestionList... (unanswered by user, displays as default)/> ( takes a "questionIds" prop, filtered for those that haven't been answered by user, ordered by timestamp)
+                    <Link to ViewQuestion... (/question/:question_id)> 
+        
+        <Tab../>(Reactstrap tab group)
+            <QuestionList... ()/> ("questionIds" prop filtered for answered BY USER, ordered by timestamp)
+                <Link to ViewQuestion... (/question/:question_id)> (User's answer here?)
+            
+
+    <ViewQuestion.../> (route: '/question/:question_id')
+            GET question
+                IF question_id not available, redirect to Error/404 page
+
+            SAVE question answer, user who anwered it.
+
+            <Question.../> (If question has been answered already by user, display | total # who chose each option | percentage of people who chose each option next to the option. Highlight the option chosen by the authedUser)
+                <option 1/> 
+                <option 2/> 
+    
+    <Leaderboard.../> (route: '/leaderboard')
+        functional component, no user interaction. Will need read access to store though.
+        GET users
+        GET questions
+    
+    <NewPoll.../> (route: '/add')
+        GET authedUser
+        GET users (filtered for authedUser)
+        SAVE question
+
+        form with two text fields, one for optionOne, one for optionTwo
+
+     
+
+Which data should live in the store?
+=======================================
+authedUser (implies loggedin?)
+user info
+question info
+
+
+Which componenets should access store via "connect()"? (these would be considered "containers" I think)
+=========================================================================================================    
+<App>
+    Needs READ authedUser, redirect to '/login' if not loggedin.
+
+<TopNav>
+    Needs authedUser,
+    Will clear (UNSET) authedUser via "logout" button
+
+<LoginForm>
+    GET users
+    SET authedUser
+
+        Allow user to select a user, then SET the authedUser store
+
+<Main>
+    Needs everything
+
+<ViewQuestion>
+    Needs to read question, authedUser
+
+<Leaderboard>
+    Needs everything
+
+<NewPoll>
+    Needs authedUser, users
+
+middleware:
+=================
+logger
+
+? Anything else ?
+
+Actions:
+========
+handleDoLogin
+    set authedUser in store
+        doLoginAction()
+            user must exist in DATA. if not, set authedUser to ''
+
+handleDoLogout
+    remove authedUser from store
+        doLogoutAction()
+
+handleGetInitialData - "shared" action?
+    get all questions and user info
+    AFTER user has logged in
+        getInitialDataAction()
+
+handleAnswerQuestion - save here?
+    answerQuestionAction()
+
+handleGetAuthedUser
+    getAutheduserAction()
+
+handleGetUser
+    getUserAction()
+
+handleGetQuestion
+    getQuestionAction()
+
+
+Reducers:
+============
+
+DO_LOGIN
+    set authedUser: userId 
+
+DO_LOGOUT
+    set authedUser: ''
+
+
+FETCH_AUTHED_USER (only available if user has logged in)
+    return authedUser: userId
+
+FETCH_QUESTIONS
+    questions (array of question_ids, returns all if question_id arry empty)
+
+FETCH_USERS
+    users (array of user ids, returns all if array empty)
+
+
+Possible state/store objects:
+==========================================
+
+{
+    authedUser: userId or null. Must be an existing user in DATA.js
+
+    users {
+        see _DATA.js
+
+    }
+
+    questions {
+        see _DATA.js
+    }
+
+}
+
+Other notes:
+=====================
+
+Free avatar icons: https://www.pdclipart.org/thumbnails.php?album=85
+
+
+
+
+
