@@ -25,8 +25,12 @@ export function handleAnswerQuestion(questionInfo) {
 
 export function handleSaveNewPoll(pollInfo) {
     return (dispatch) => {
+        dispatch(showLoading())
         return _saveQuestion(pollInfo).then(() => {
             return Promise.all([dispatch(handleInitialData())])
+                .then(()=> {
+                    return dispatch(hideLoading())
+                })
         })
     }
 

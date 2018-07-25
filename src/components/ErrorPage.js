@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
 import { connect } from 'react-redux'
 function ErrorPage(props)  {
@@ -20,3 +21,8 @@ const mapStateToProps = ({ authedUser }) => {
 }
 
 export default connect(mapStateToProps)(ErrorPage);
+
+ErrorPage.propTypes = {
+  authedUser: PropTypes.string,
+  location: PropTypes.shape({pathname: PropTypes.string})
+}

@@ -31,8 +31,8 @@ class NewPoll extends Component {
     evt.persist();
     this.keyTimer = setTimeout(() => {
       const { answerOne, answerTwo } = this.state
-      const newPollInfo = {answerOne: answerOne, answerTwo: answerTwo}
-      this.props.dispatch(handleStoreNewPoll({authedUser: this.props.authedUser, newPollInfo: newPollInfo}));
+      const newPollInfo = { answerOne: answerOne, answerTwo: answerTwo }
+      this.props.dispatch(handleStoreNewPoll({ authedUser: this.props.authedUser, newPollInfo: newPollInfo }));
     }, 500)
   }
 
@@ -41,7 +41,7 @@ class NewPoll extends Component {
     const { answerOne, answerTwo } = this.state
     const author = this.props.authedUser
     this.setState({showWaitingMessage: true})
-    this.props.dispatch(handleSaveNewPoll({optionOneText:answerOne, optionTwoText: answerTwo, author: author})).then(() => {
+    this.props.dispatch(handleSaveNewPoll({ optionOneText:answerOne, optionTwoText: answerTwo, author: author })).then(() => {
       this.setState({
         showWaitingMessage: false
       })
@@ -49,27 +49,27 @@ class NewPoll extends Component {
   } 
 
   render() {
-    const {answerOne, answerTwo, showWaitingMessage} = this.state;
+    const { answerOne, answerTwo, showWaitingMessage } = this.state;
     return (
       <div>
         <h1>Submit a new poll</h1>
         <p>Would you rather...</p>
         <Form onSubmit={(e) => this._onSubmit(e)}>
           <ol className={'poll'}>
-            <li><Input type="text" id={'answerOne'} value={answerOne} onChange={(e) => this._onChange(e)} onKeyUp={(e) => this._onKeyUp(e)} placeholder={'Enter Question 1 text'}/></li>
+            <li><Input type="text" id={'answerOne'} value={ answerOne } onChange={ (e) => this._onChange(e) } onKeyUp={ (e) => this._onKeyUp(e) } placeholder={'Enter Question 1 text'}/></li>
             <div style={{marginTop: '10px'}}>Or...</div>
-            <li><Input type="text" id={'answerTwo'} value={answerTwo} onChange={(e) => this._onChange(e)} onKeyUp={(e) => this._onKeyUp(e)} placeholder={'Enter Question 2 text'}/></li>
+            <li><Input type="text" id={'answerTwo'} value={ answerTwo } onChange={ (e) => this._onChange(e) } onKeyUp={ (e) => this._onKeyUp(e) } placeholder={'Enter Question 2 text'}/></li>
           </ol>
-          <Button disabled={answerOne === '' || answerTwo === ''}>Submit Poll</Button>
+          <Button disabled={ answerOne === '' || answerTwo === '' }>Submit Poll</Button>
         </Form>
-        {showWaitingMessage === true ? <div>Submitting...</div> : showWaitingMessage === false && <Redirect to={'/'}/>}
+        { showWaitingMessage === true ? <div>Submitting...</div> : showWaitingMessage === false && <Redirect to={'/'}/> }
       </div>
     );
   }
 }
 
-const mapStateToProps = (({authedUser, users}) => {
-  const {newPollInfo} = users[authedUser]
+const mapStateToProps = (({ authedUser, users }) => {
+  const { newPollInfo } = users[authedUser]
   
   return {
     authedUser: authedUser,

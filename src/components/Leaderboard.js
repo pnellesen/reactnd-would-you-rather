@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import { connect } from 'react-redux'
 import { Table } from 'reactstrap';
 
@@ -40,3 +41,15 @@ const mapStateToProps = ({users, authedUser}) => {
 }
 
 export default connect(mapStateToProps)(Leaderboard)
+
+Leaderboard.propTypes = {
+  users: PropTypes.arrayOf(
+    PropTypes.shape({
+    id: PropTypes.string,
+    name:PropTypes.string,
+    asked: PropTypes.number,
+    answered: PropTypes.number,
+    total: PropTypes.number
+  })).isRequired,
+  authedUser: PropTypes.object.isRequired
+}
