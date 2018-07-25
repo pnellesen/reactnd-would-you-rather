@@ -1,9 +1,9 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux'
+import { Redirect} from 'react-router-dom'
 import { Form, Button, Input  } from 'reactstrap';
-
-// Idea to use the <Prompt> component from https://github.com/ReactTraining/react-router/issues/5409
-import { Prompt } from "react-router-dom";
+import {handleStoreNewPoll} from '../actions/users'
+import {handleSaveNewPoll} from '../actions/shared'
 
 class NewPoll extends Component {
   state = {
@@ -12,53 +12,69 @@ class NewPoll extends Component {
     showWaitingMessage: null
   };
 
+  keyTimer = null;
+
   _onChange = (evt) => {
     const {id, value} = evt.target
     this.setState({
       ...this.state,
       [id]: value
     })
-    /**
-     * would somehting here to save anything typed in answerOne/answerTwo boxes to store onChange
-     * be worthwhile? Or do like we did in book search and do it after user stops typing for X seconds?
-     * this.props.dispatch(storePollInfo(this.state))
-     */
+  }
+
+  /**
+   * Save input fields to store - this will NOT create a new poll, 
+   * this simply stores the current state of the form so the user can navigate away and come back.
+   */
+  _onKeyUp = (evt) => {
+    clearTimeout(this.keyTimer);
+    evt.persist();
+    this.keyTimer = setTimeout(() => {
+      const { answerOne, answerTwo } = this.state
+      const newPollInfo = {answerOne: answerOne, answerTwo: answerTwo}
+      this.props.dispatch(handleStoreNewPoll({authedUser: this.props.authedUser, newPollInfo: newPollInfo}));
+    }, 500)
   }
 
   _onSubmit = (evt) => {
-      evt.preventDefault();
-      console.log("Submit - state: ", this.state)
+    evt.preventDefault();
+    const { answerOne, answerTwo } = this.state
+    const author = this.props.authedUser
+    this.setState({showWaitingMessage: true})
+    this.props.dispatch(handleSaveNewPoll({optionOneText:answerOne, optionTwoText: answerTwo, author: author})).then(() => {
+      this.setState({
+        showWaitingMessage: false
+      })
+    })
   } 
 
   render() {
-    console.log("New Poll - props? ", this.props)
-    const {answerOne, answerTwo} = this.state;
+    const {answerOne, answerTwo, showWaitingMessage} = this.state;
     return (
-
       <div>
         <h1>Submit a new poll</h1>
         <p>Would you rather...</p>
         <Form onSubmit={(e) => this._onSubmit(e)}>
           <ol className={'poll'}>
-            <li><Input type="text" id={'answerOne'} value={answerOne} onChange={(e) => this._onChange(e)} placeholder={'Enter Question 1 text'}/></li>
+            <li><Input type="text" id={'answerOne'} value={answerOne} onChange={(e) => this._onChange(e)} onKeyUp={(e) => this._onKeyUp(e)} placeholder={'Enter Question 1 text'}/></li>
             <div style={{marginTop: '10px'}}>Or...</div>
-            <li><Input type="text" id={'answerTwo'} value={answerTwo} onChange={(e) => this._onChange(e)} placeholder={'Enter Question 2 text'}/></li>
+            <li><Input type="text" id={'answerTwo'} value={answerTwo} onChange={(e) => this._onChange(e)} onKeyUp={(e) => this._onKeyUp(e)} placeholder={'Enter Question 2 text'}/></li>
           </ol>
           <Button disabled={answerOne === '' || answerTwo === ''}>Submit Poll</Button>
-          <Prompt when={answerOne !== '' ||  answerTwo !== ''} message={'Poll info not saved - are you sure you want to leave?'}/>
         </Form>
+        {showWaitingMessage === true ? <div>Submitting...</div> : showWaitingMessage === false && <Redirect to={'/'}/>}
       </div>
     );
   }
 }
 
-const mapStateToProps = (({authedUser, newPollInfo}) => {
-  const answerOne = newPollInfo ? newPollInfo.answerOne : ''
-  const answerTwo = newPollInfo ? newPollInfo.answerTwo : ''
+const mapStateToProps = (({authedUser, users}) => {
+  const {newPollInfo} = users[authedUser]
+  
   return {
     authedUser: authedUser,
-    answerOne: answerOne,
-    answerTwo: answerTwo
+    answerOne: newPollInfo ? newPollInfo.answerOne : '',
+    answerTwo: newPollInfo ? newPollInfo.answerTwo : ''
   }
 })
 
