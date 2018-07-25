@@ -7,8 +7,8 @@ import { Prompt } from "react-router-dom";
 
 class NewPoll extends Component {
   state = {
-    answerOne: '',
-    answerTwo: '',
+    answerOne: this.props.answerOne,
+    answerTwo: this.props.answerTwo,
     showWaitingMessage: null
   };
 
@@ -25,6 +25,10 @@ class NewPoll extends Component {
      */
   }
 
+  _onSubmit = (evt) => {
+      evt.preventDefault();
+      console.log("Submit - state: ", this.state)
+  } 
 
   render() {
     console.log("New Poll - props? ", this.props)
@@ -48,8 +52,14 @@ class NewPoll extends Component {
   }
 }
 
-const mapStateToProps = (({authedUser}) => {
-  return {authedUser: authedUser}
+const mapStateToProps = (({authedUser, newPollInfo}) => {
+  const answerOne = newPollInfo ? newPollInfo.answerOne : ''
+  const answerTwo = newPollInfo ? newPollInfo.answerTwo : ''
+  return {
+    authedUser: authedUser,
+    answerOne: answerOne,
+    answerTwo: answerTwo
+  }
 })
 
 export default connect(mapStateToProps)(NewPoll);
