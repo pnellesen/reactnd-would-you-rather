@@ -8,7 +8,7 @@ function Leaderboard(props) {
     return (
       <div>
         <h1>Leaderboard</h1>
-        <Table responsive>
+        <Table responsive className={'leaderboard'}>
           <thead>
             <tr>
               <th>Name</th>

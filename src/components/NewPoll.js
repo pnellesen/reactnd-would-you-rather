@@ -1,8 +1,8 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux'
-import { Redirect} from 'react-router-dom'
+import { Redirect } from 'react-router-dom'
 import { Form, Button, Input  } from 'reactstrap';
-import {handleStoreNewPoll} from '../actions/users'
+import {handleStoreUserInfo} from '../actions/users'
 import {handleSaveNewPoll} from '../actions/shared'
 
 class NewPoll extends Component {
@@ -21,21 +21,7 @@ class NewPoll extends Component {
       [id]: value
     })
   }
-
-  /**
-   * Save input fields to store - this will NOT create a new poll, 
-   * this simply stores the current state of the form so the user can navigate away and come back.
-   */
-  _onKeyUp = (evt) => {
-    clearTimeout(this.keyTimer);
-    evt.persist();
-    this.keyTimer = setTimeout(() => {
-      const { answerOne, answerTwo } = this.state
-      const newPollInfo = { answerOne: answerOne, answerTwo: answerTwo }
-      this.props.dispatch(handleStoreNewPoll({ authedUser: this.props.authedUser, newPollInfo: newPollInfo }));
-    }, 500)
-  }
-
+  
   _onSubmit = (evt) => {
     evt.preventDefault();
     const { answerOne, answerTwo } = this.state
@@ -43,10 +29,27 @@ class NewPoll extends Component {
     this.setState({showWaitingMessage: true})
     this.props.dispatch(handleSaveNewPoll({ optionOneText:answerOne, optionTwoText: answerTwo, author: author })).then(() => {
       this.setState({
-        showWaitingMessage: false
+        showWaitingMessage: false,
+        answerOne: '',
+        answerTwo: ''
+
       })
     })
   } 
+
+  /**
+   * Save input fields to store - this will NOT create a new poll, 
+   * this simply stores the current state of the form so the user can navigate away and come back.
+   * Should only need to do this when the component is unmounting.
+   
+   */
+  componentWillUnmount() {
+    const { answerOne, answerTwo, showWaitingMessage } = this.state
+    if (showWaitingMessage === null) {// We only want to do this if they haven't actually submitted the form.
+      const userInfo = { answerOne: answerOne, answerTwo: answerTwo }
+      this.props.dispatch(handleStoreUserInfo({ authedUser: this.props.authedUser, userInfo: userInfo }))
+    }
+  }
 
   render() {
     const { answerOne, answerTwo, showWaitingMessage } = this.state;
@@ -56,25 +59,24 @@ class NewPoll extends Component {
         <p>Would you rather...</p>
         <Form onSubmit={(e) => this._onSubmit(e)}>
           <ol className={'poll'}>
-            <li><Input type="text" id={'answerOne'} value={ answerOne } onChange={ (e) => this._onChange(e) } onKeyUp={ (e) => this._onKeyUp(e) } placeholder={'Enter Question 1 text'}/></li>
+            <li><Input type="text" id={'answerOne'} value={ answerOne } onChange={ (e) => this._onChange(e) } placeholder={'Enter Question 1 text'}/></li>
             <div style={{marginTop: '10px'}}>Or...</div>
-            <li><Input type="text" id={'answerTwo'} value={ answerTwo } onChange={ (e) => this._onChange(e) } onKeyUp={ (e) => this._onKeyUp(e) } placeholder={'Enter Question 2 text'}/></li>
+            <li><Input type="text" id={'answerTwo'} value={ answerTwo } onChange={ (e) => this._onChange(e) } placeholder={'Enter Question 2 text'}/></li>
           </ol>
           <Button disabled={ answerOne === '' || answerTwo === '' }>Submit Poll</Button>
         </Form>
-        { showWaitingMessage === true ? <div>Submitting...</div> : showWaitingMessage === false && <Redirect to={'/'}/> }
+        { showWaitingMessage === true ? <div>Submitting...</div> : showWaitingMessage === false && <Redirect push to={'/'}/> }
       </div>
     );
   }
 }
 
 const mapStateToProps = (({ authedUser, users }) => {
-  const { newPollInfo } = users[authedUser]
-  
+  const userInfo = users[authedUser].userInfo || {}
   return {
     authedUser: authedUser,
-    answerOne: newPollInfo ? newPollInfo.answerOne : '',
-    answerTwo: newPollInfo ? newPollInfo.answerTwo : ''
+    answerOne: userInfo.answerOne ? userInfo.answerOne : '',
+    answerTwo: userInfo.answerTwo ? userInfo.answerTwo : ''
   }
 })
 

@@ -8,19 +8,20 @@ import {
 
 export const FETCH_ALL_USERS = 'FETCH_ALL_USERS'
 export const FETCH_USER = 'FETCH_USER'
-export const STORE_NEW_POLL = 'STORE_NEW_POLL'
+export const STORE_USER_INFO = 'STORE_USER_INFO'
 
-export function storeNewPoll(pollInfo) {
+export function storeUserInfo(userInfo) {
+    
     return {
-        type: STORE_NEW_POLL,
-        pollInfo
+        type: STORE_USER_INFO,
+        userInfo
 
     }
 }
 
-export function handleStoreNewPoll(pollInfo) {
+export function handleStoreUserInfo(userInfo) {
     return (dispatch) => {
-        dispatch(storeNewPoll(pollInfo))
+        dispatch(storeUserInfo(userInfo))
     }
 }
 

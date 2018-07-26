@@ -36,8 +36,22 @@
   background-color: lightgray;
 }
 
-.container {
-  margin: 20px;
+.app_container {
+  max-width: 650px;
+  margin: 0 auto;
+  margin-top: 20px;
+}
+
+@media screen and (max-width: 375px) {
+  .app_container {
+    max-width: 350px;
+  }
+}
+
+@media screen and (min-width: 767px) {
+  .app_container {
+    max-width: 740px;
+  }
 }
 
 button.disabled:hover {
@@ -51,3 +65,31 @@ input[type=checkbox], input[type=radio] {
 ol.poll li:not(:first-child) {
   margin-top: 10px
 }
+
+table.leaderboard th:not(:first-child), table.leaderboard td:not(:first-child) {
+  text-align: center
+}
+
+/* Simple styles for main page tabs */
+.main_tabs .nav-item:not(:first-child) {
+  margin-left:2px
+}
+
+.main_tabs .nav-item a {
+  background-color:rgb(241, 241, 241);
+  color: #ccc
+}
+
+.main_tabs .nav-item a:not(.active):hover {
+  cursor: pointer;
+}
+
+.app_container .tab-pane {
+  padding:20px
+}
+.app_container .tab-content .active {
+  border: 1px solid #ccc;
+  border-top: none
+
+}
+/* End tab styles */

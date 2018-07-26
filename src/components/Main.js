@@ -1,19 +1,27 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import QuestionList from './QuestionList'
 import { connect } from 'react-redux'
+import QuestionList from './QuestionList'
+import {handleStoreUserInfo} from '../actions/users'
+
 import { TabContent, TabPane, Nav, NavItem, NavLink, Card, Button, CardTitle, CardText, Row, Col } from 'reactstrap';
 
 
 class Main extends Component {
   state = {
-    activeTab: '1'
+    activeTab: this.props.activeTab
   }
 
   toggle(tab) {
     this.state.activeTab !== tab && this.setState({activeTab: tab})
   }
 
+
+  componentWillUnmount() {
+    const { activeTab } = this.state
+    const userInfo = { activeTab: activeTab }
+    this.props.dispatch(handleStoreUserInfo({ authedUser: this.props.authedUser, userInfo: userInfo }))
+  }  
   render() {
     const { questions } = this.props;
     console.log("active tab? ", this.state.activeTab)
@@ -21,7 +29,7 @@ class Main extends Component {
 
         Object.keys(questions).length > 0 ? (
           <div>
-          <Nav tabs>
+          <Nav tabs className={'main_tabs'}>
         <NavItem>
           <NavLink
             className={this.state.activeTab === '1' ? 'active' : '' }
@@ -59,9 +67,14 @@ class Main extends Component {
   }
 }
 
-const mapStateToProps = ({ questions }) => {
+const mapStateToProps = ({ authedUser, questions, users  }) => {
+  const userInfo = users[authedUser].userInfo || {}
+  const activeTab = userInfo.activeTab ? userInfo.activeTab : '1'
+  
   return {
-    questions: questions
+    authedUser: authedUser,
+    questions: questions,
+    activeTab: activeTab
    }
  }
 
