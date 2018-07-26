@@ -46,6 +46,14 @@ class Main extends Component {
            Answered
           </NavLink>
         </NavItem>
+        <NavItem>
+          <NavLink
+            className={this.state.activeTab === '3' ? 'active' : ''  }
+            onClick={() => { this.toggle('3'); }}
+          >
+           Mine
+          </NavLink>
+        </NavItem>
       </Nav>
         <TabContent activeTab={this.state.activeTab}>
         <TabPane tabId="1">
@@ -56,6 +64,11 @@ class Main extends Component {
          
         <h3>Questions you have answered:</h3>
           <QuestionList type={'answered'}/>
+        </TabPane>
+        <TabPane tabId="3">
+         
+        <h3>Questions you have authored:</h3>
+          <QuestionList type={'mine'}/>
         </TabPane>
         </TabContent>
         </div> 

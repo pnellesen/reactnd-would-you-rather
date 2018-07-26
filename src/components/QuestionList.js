@@ -12,7 +12,7 @@ function QuestionList(props) {
       const optionTwo = answer['optionTwo']
       const qOneStyle = optionOne.votes.includes(authedUser) ? 'qAnswered' : ''
       const qTwoStyle = optionTwo.votes.includes(authedUser) ? 'qAnswered' : ''
-      return <li key={ answer.id }><Link to={`/question/${ answer.id }`}><span className={ qOneStyle }>{ optionOne.text }</span> or <span className={ qTwoStyle }>{ optionTwo.text }</span>? (asked on { qDate })</Link></li>}
+      return <li key={ answer.id }><Link to={`/question/${ answer.id }`}><span className={ qOneStyle }>{ optionOne.text }</span> or <span className={ qTwoStyle }>{ optionTwo.text }</span>?</Link> (asked on { qDate })</li>}
     )}
     </ul>
   )
@@ -31,6 +31,11 @@ const mapStateToProps = ({ authedUser, questions }, { type }) => {
     case 'unanswered':
       filteredQs = Object.keys(questions)
         .filter((question) => !questions[question].optionOne.votes.includes(authedUser) && !questions[question].optionTwo.votes.includes(authedUser))
+        .map(question => questions[question])
+      break;
+    case 'mine':
+      filteredQs = Object.keys(questions)
+        .filter((question) => questions[question].author === authedUser)
         .map(question => questions[question])
       break;
     default:
