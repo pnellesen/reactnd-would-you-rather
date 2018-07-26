@@ -8,6 +8,7 @@ import { TabContent, TabPane, Nav, NavItem, NavLink, Card, Button, CardTitle, Ca
 
 
 class Main extends Component {
+
   state = {
     activeTab: this.props.activeTab
   }
@@ -16,60 +17,46 @@ class Main extends Component {
     this.state.activeTab !== tab && this.setState({activeTab: tab})
   }
 
-
   componentWillUnmount() {
     const { activeTab } = this.state
     const userInfo = { activeTab: activeTab }
     this.props.dispatch(handleStoreUserInfo({ authedUser: this.props.authedUser, userInfo: userInfo }))
-  }  
+  }
+  
+  tabInfo = [
+    {type: 'unanswered', tabText: 'Unanswered', heading: 'Questions you have not yet answered:'},
+    {type: 'answered', tabText: 'Answered', heading: 'Questions you have answered'},
+    {type: 'mine', tabText: 'Mine', heading: 'Questions you have authored'},
+  ]
+
   render() {
     const { questions } = this.props;
-    console.log("active tab? ", this.state.activeTab)
     return (
-
         Object.keys(questions).length > 0 ? (
           <div>
           <Nav tabs className={'main_tabs'}>
-        <NavItem>
-          <NavLink
-            className={this.state.activeTab === '1' ? 'active' : '' }
-            onClick={() => { this.toggle('1'); }}
-          >
-            Unanswered
-          </NavLink>
-        </NavItem>
-        <NavItem>
-          <NavLink
-            className={this.state.activeTab === '2' ? 'active' : ''  }
-            onClick={() => { this.toggle('2'); }}
-          >
-           Answered
-          </NavLink>
-        </NavItem>
-        <NavItem>
-          <NavLink
-            className={this.state.activeTab === '3' ? 'active' : ''  }
-            onClick={() => { this.toggle('3'); }}
-          >
-           Mine
-          </NavLink>
-        </NavItem>
-      </Nav>
+          { this.tabInfo.map((thisTab, index) => {
+              return (
+                <NavItem key={index}>
+                  <NavLink
+                  className={this.state.activeTab === `${index}` ? 'active' : '' }
+                  onClick={() => { this.toggle(`${index}`); }}
+                  > 
+                  {thisTab.tabText}
+                  </NavLink>
+                </NavItem>
+              )
+            }) }
+        </Nav>
         <TabContent activeTab={this.state.activeTab}>
-        <TabPane tabId="1">
-          <h3>Questions you have not yet answered:</h3>
-          <QuestionList type={'unanswered'}/>
-        </TabPane>
-        <TabPane tabId="2">
-         
-        <h3>Questions you have answered:</h3>
-          <QuestionList type={'answered'}/>
-        </TabPane>
-        <TabPane tabId="3">
-         
-        <h3>Questions you have authored:</h3>
-          <QuestionList type={'mine'}/>
-        </TabPane>
+        { this.tabInfo.map((thisTab, index) => {
+          return (
+            <TabPane key={index} tabId={`${index}`}>
+              <h3>{thisTab.heading}</h3>
+              <QuestionList type={`${thisTab.type}`}/>
+            </TabPane>
+          )
+        }) }
         </TabContent>
         </div> 
        ) : (
@@ -82,7 +69,7 @@ class Main extends Component {
 
 const mapStateToProps = ({ authedUser, questions, users  }) => {
   const userInfo = users[authedUser].userInfo || {}
-  const activeTab = userInfo.activeTab ? userInfo.activeTab : '1'
+  const activeTab = userInfo.activeTab ? userInfo.activeTab : '0'
   
   return {
     authedUser: authedUser,
