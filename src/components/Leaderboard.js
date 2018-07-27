@@ -27,12 +27,10 @@ class Leaderboard extends Component {
       case 'name':
        // sorting by text suggestion at https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/sort
         this.setState( { users: userVals.sort( function(a,b){
-          let name1 = a.name.toUpperCase();
-          let name2 = b.name.toUpperCase();
-          if (sortOrder) {
-            name1 = b.name.toUpperCase();
-            name2 = a.name.toUpperCase();
-          }
+
+          let name1 = sortOrder? b.name.toUpperCase() : a.name.toUpperCase();
+          let name2 = sortOrder? a.name.toUpperCase() : b.name.toUpperCase();
+
           if ( name1 < name2 ) { return -1; }
           if ( name1 > name2 ) { return 1; }
           
