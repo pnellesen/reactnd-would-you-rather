@@ -58,7 +58,7 @@ button.disabled:hover {
   cursor: not-allowed
 }
 
-input[type=checkbox], input[type=radio] {
+input[type=checkbox], input[type=radio], .main_tabs .nav-item a:not(.active):hover, table.leaderboard th:hover {
   cursor: pointer
 }
 
@@ -70,6 +70,7 @@ table.leaderboard th:not(:first-child), table.leaderboard td:not(:first-child) {
   text-align: center
 }
 
+
 /* Simple styles for main page tabs */
 .main_tabs .nav-item:not(:first-child) {
   margin-left:2px
@@ -80,9 +81,6 @@ table.leaderboard th:not(:first-child), table.leaderboard td:not(:first-child) {
   color: #ccc
 }
 
-.main_tabs .nav-item a:not(.active):hover {
-  cursor: pointer;
-}
 
 .app_container .tab-pane {
   padding:20px

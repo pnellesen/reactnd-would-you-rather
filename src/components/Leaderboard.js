@@ -6,54 +6,75 @@ import { Table } from 'reactstrap';
 class Leaderboard extends Component {
   state = {
     users: this.props.users,
-    sortOrder: {name: true, asked: true, answered: true, total: true}
+    sortOrder: {name: true, asked: true, answered: true, total: true},
+    isSorted: {name: false, asked: false, answered: false, total: true}
   }
+  
+  leaderHeaders = [
+    {type: 'name', text: 'Name'},
+    {type: 'asked', text: 'Asked'},
+    {type: 'answered', text: 'Answered'},
+    {type: 'total', text: 'Total'}
+  ]
 
   doSort = (type) => {
-    console.log("doSort - sortOrder[" + type + "]: ", this.state.sortOrder[type] )
+
     const sortOrder = !this.state.sortOrder[type];
+    const userVals = Object.values(this.state.users);
+    const isSortedVals = Object.keys(this.state.isSorted);
+    let unsortedArray = {}
+    isSortedVals.filter((thisType) => thisType !== type).map((thisType) => unsortedArray[thisType] = false);
+    
     switch(type) {
-      case 'name':
-      sortOrder ? this.setState({users: Object.values(this.state.users).sort()}) : this.setState({users: Object.values(this.state.users).reverse()})
-      /*  
-       this.setState({users: Object.values(this.state.users).sort(function(a,b){
-         return (sortOrder ? b.name - a.name : a.name - b.name)
+      case 'name':// sorting by text suggestion at https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/sort
+       this.setState({users: userVals.sort(function(a,b){
+          
+          let name1 = a.name.toUpperCase();
+          let name2 = b.name.toUpperCase();
+          
+          if (sortOrder) {
+            name1 = b.name.toUpperCase();
+            name2 = a.name.toUpperCase();
+          }
+          
+          if ( name1 < name2) {
+            return -1;
+          }
+          if (name1 > name2) {
+            return 1;
+          }
+        
+          // names must be equal
+          return 0;
         })})
-        */
-       break;
-      case 'asked':
-        this.setState({users: Object.values(this.state.users).sort(function(a,b){
+      
+        break;
+      default:// We assume here that all other sorting will be numeric
+        this.setState({users: userVals.sort(function(a,b){
           return (
-            sortOrder ? b.asked - a.asked : a.asked - b.asked
+            sortOrder ? b[type] - a[type] : a[type]- b[type]
           )
    
         })})
-        break;
-      case 'answered':
-        this.setState({users: Object.values(this.state.users).sort(function(a,b){
-          return (sortOrder ? b.answered - a.answered : a.answered - b.answered)
-        })})
-        break;
-      default:
-        this.setState({users: Object.values(this.state.users).sort(function(a,b){
-          return (sortOrder ? b.total - a.total : a.total - b.total)
-        })})
     }
-    this.setState({sortOrder: {...this.state.sortOrder, [type]: sortOrder}})
+    this.setState({
+      sortOrder: {...this.state.sortOrder, [type]: sortOrder},
+      isSorted: {...unsortedArray, [type]:true}
+    })
   }
+
   render () {
       const { authedUser } = this.props
-      const { users } = this.state
+      const { users, sortOrder, isSorted } = this.state
       return (
         <div>
           <h1>Leaderboard</h1>
           <Table responsive className={'leaderboard'}>
             <thead>
               <tr>
-                <th onClick={() => this.doSort('name')} title={'Click to sort'}>Name</th>
-                <th onClick={() => this.doSort('asked')} title={'Click to sort'}>Asked</th>
-                <th onClick={() => this.doSort('answered')} title={'Click to sort'}>Answered</th>
-                <th onClick={() => this.doSort('total')} title={'Click to sort'}>Total</th>
+                {this.leaderHeaders.map((header) =>
+                  <th key={header.type} onClick={() => this.doSort(header.type)} title={'Click to sort'}>{header.text} {isSorted[header.type] && (sortOrder[header.type] ? `\u2193` : `\u2191`)}</th>  
+                )}
               </tr>
             </thead>
             <tbody>
@@ -74,9 +95,9 @@ class Leaderboard extends Component {
 }
 
 const mapStateToProps = ({users, authedUser}) => {
-
+  const usersArray = Object.values(users);//This converts the users object to an array, which we can then sort by whichever key we wish
   return {
-    users: Object.values(users).sort(function(a,b){return b.total - a.total}),
+    users: usersArray.sort(function(a,b){return b.total - a.total}),
     authedUser: {...users[authedUser]}
   }
 }
