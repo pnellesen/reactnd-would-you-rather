@@ -5,30 +5,41 @@ import { Table } from 'reactstrap';
 
 class Leaderboard extends Component {
   state = {
-    users: this.props.users
+    users: this.props.users,
+    sortOrder: {name: true, asked: true, answered: true, total: true}
   }
 
   doSort = (type) => {
-    console.log("doSort - type: ", type)
+    console.log("doSort - sortOrder[" + type + "]: ", this.state.sortOrder[type] )
+    const sortOrder = !this.state.sortOrder[type];
     switch(type) {
       case 'name':
-       this.setState({users: Object.values(this.state.users).sort(function(a,b){return b.name - a.name})})
+      sortOrder ? this.setState({users: Object.values(this.state.users).sort()}) : this.setState({users: Object.values(this.state.users).reverse()})
+      /*  
+       this.setState({users: Object.values(this.state.users).sort(function(a,b){
+         return (sortOrder ? b.name - a.name : a.name - b.name)
+        })})
+        */
        break;
       case 'asked':
         this.setState({users: Object.values(this.state.users).sort(function(a,b){
           return (
-            1 !== 1 ? b.asked - a.asked : a.asked - b.asked
+            sortOrder ? b.asked - a.asked : a.asked - b.asked
           )
-          //return b.asked - a.asked
-        
+   
         })})
         break;
-      case 'asked':
-        this.setState({users: Object.values(this.state.users).sort(function(a,b){return b.answered - a.answered})})
+      case 'answered':
+        this.setState({users: Object.values(this.state.users).sort(function(a,b){
+          return (sortOrder ? b.answered - a.answered : a.answered - b.answered)
+        })})
         break;
       default:
-        this.setState({users: Object.values(this.state.users).sort(function(a,b){return b.total - a.total})})
+        this.setState({users: Object.values(this.state.users).sort(function(a,b){
+          return (sortOrder ? b.total - a.total : a.total - b.total)
+        })})
     }
+    this.setState({sortOrder: {...this.state.sortOrder, [type]: sortOrder}})
   }
   render () {
       const { authedUser } = this.props
