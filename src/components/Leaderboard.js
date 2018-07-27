@@ -62,6 +62,7 @@ class Leaderboard extends Component {
 
   componentWillMount() {
     // set up the initial sorting here from the stored info before we render the table.
+    
     this.doSort(this.state.sortCol)
   }
 
@@ -99,7 +100,6 @@ class Leaderboard extends Component {
 const mapStateToProps = ({users, authedUser}) => {
   const usersArray = Object.values(users);//This converts the users object to an array, which we can then sort by whichever key we wish
   const userInfo = users[authedUser].userInfo || {}
-  
   return {
     users: usersArray,
     authedUser: users[authedUser],
@@ -119,5 +119,7 @@ Leaderboard.propTypes = {
     answered: PropTypes.number,
     total: PropTypes.number
   })).isRequired,
-  authedUser: PropTypes.object.isRequired
+  authedUser: PropTypes.object.isRequired,
+  sortOrder: PropTypes.bool.isRequired,
+  sortCol: PropTypes.string.isRequired
 }
