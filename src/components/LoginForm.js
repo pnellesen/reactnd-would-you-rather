@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import { Button } from 'reactstrap';
+import { Card, CardText, CardBody,
+  CardTitle, CardSubtitle, Button } from 'reactstrap';
 import { Redirect } from 'react-router-dom'
 import { connect } from 'react-redux'
 import { handleSetAuthedUser } from '../actions/authedUser'
@@ -19,13 +20,20 @@ class LoginForm extends Component {
     }
 
     return (
-      <div><h1>Log in form here</h1>
+      <div><h1>Log In</h1>
 
         {Object.keys(users).length > 0 ? (
-          <div><p>Please select a user</p>
-          <ul style={{listStyleType: 'none'}}>
-            {Object.keys(users).map((userId) => <li key={userId}><Button color="link" onClick={() => this.doAuth(userId)}><span className={`auth_avatar`} style={{backgroundImage: `url(/${users[userId].avatarURL})`}}>{users[userId].name}</span></Button></li>)}
-          </ul>
+          <div>
+          <Card>
+            <CardBody>
+              <CardTitle>Please select a user to log in as</CardTitle>
+              <CardText>
+                <ul style={{listStyleType: 'none'}}>
+                  {Object.keys(users).map((userId) => <li key={userId}><Button color="link" onClick={() => this.doAuth(userId)}><span className={`auth_avatar`} style={{backgroundImage: `url(/${users[userId].avatarURL})`}}>{users[userId].name}</span></Button></li>)}
+              </ul>
+              </CardText>
+            </CardBody>
+          </Card>
           </div>
 
         ) : (<p>...Loading data, please wait</p>)}
