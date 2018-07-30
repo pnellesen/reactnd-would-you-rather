@@ -42,6 +42,16 @@
   margin-top: 20px;
 }
 
+/* avatar styles */
+.user_info_nav {
+  float: right;
+  margin:5px;
+  margin-right:20px;
+  padding-left:25px;
+  background-size: contain;
+  background-repeat: no-repeat;
+}
+
 @media screen and (max-width: 375px) {
   .app_container {
     max-width: 350px;
@@ -49,7 +59,9 @@
   table.leaderboard th, table.leaderboard td {
     font-size: .65em;
   }
-
+  .user_info_nav {
+    margin-right:10px
+  }
 }
 
 @media screen and (min-width: 767px) {
@@ -103,14 +115,7 @@ table.leaderboard th span.sorter.hide {
 }
 /* End tab styles */
 
-/* avatar styles */
-.user_info_nav {
-  float: right;
-  color: white;
-  padding-left:25px;
-  background-size: contain;
-  background-repeat: no-repeat;
-}
+
 
 .auth_avatar {
   padding-left:20px;

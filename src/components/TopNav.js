@@ -57,10 +57,9 @@ class TopNav extends Component {
 							<NavLink tag={Link} to={'/login'} onClick={() => {this.toggleCollapse();!disabled && dispatch(handleDoLogout())}}>{!disabled ? 'Logout' : 'Login'}</NavLink>
 						</NavItem>
 					</Nav>
-					{!disabled && <span style={{backgroundImage: `url(${users[authedUser].avatarURL})`}} className={'userId user_info_nav'}>Logged in as {users[authedUser].name}</span>}
 			  	</Collapse>
-
 	        </Navbar>
+			{!disabled && <span style={{backgroundImage: `url(${users[authedUser].avatarURL})`}} className={'userId user_info_nav'}>Logged in as {users[authedUser].name}</span>}
 	      </div>
 		)
 	}
