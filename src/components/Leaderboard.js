@@ -10,7 +10,7 @@ class Leaderboard extends Component {
     sortOrder: this.props.sortOrder,
     sortCol: this.props.sortCol
   }
-  
+
   leaderHeaders = [
     {type: 'name', text: 'Name'},
     {type: 'asked', text: 'Asked'},
@@ -33,12 +33,12 @@ class Leaderboard extends Component {
 
           if ( name1 < name2 ) { return -1; }
           if ( name1 > name2 ) { return 1; }
-          
+
           // if we get here, the name values must be equal
           return 0;
         })})
         break;
-      
+
       default:// We assume here that all other sorting will be numeric
         this.setState({ users: userVals.sort(function(a,b){
           return sortOrder ? b[type] - a[type] : a[type]- b[type]
@@ -56,13 +56,13 @@ class Leaderboard extends Component {
       sortOrder:this.state.sortOrder,
       sortCol: this.state.sortCol
     }
-   
+
     this.props.dispatch(handleStoreUserInfo({ authedUser: this.props.authedUser.id, userInfo: userInfo }))
   }
 
   componentWillMount() {
     // set up the initial sorting here from the stored info before we render the table.
-    
+
     this.doSort(this.state.sortCol)
   }
 
@@ -76,7 +76,7 @@ class Leaderboard extends Component {
             <thead>
               <tr>
                 {this.leaderHeaders.map((header) =>
-                  <th key={header.type} onClick={() => this.doSort(header.type, true)} title={'Click to sort'}>{header.text} {sortCol === header.type && (sortOrder ? `\u2193` : `\u2191`)}</th>  
+                  <th key={header.type} onClick={() => this.doSort(header.type, true)} title={'Click to sort'}>{header.text}<span className={`sorter ${sortCol === header.type ? `show` : `hide`}`}> {sortOrder ? `\u2193` : `\u2191`}</span></th>
                 )}
               </tr>
             </thead>
@@ -94,7 +94,7 @@ class Leaderboard extends Component {
         </div>
       );
     }
-    
+
 }
 
 const mapStateToProps = ({users, authedUser}) => {

@@ -70,6 +70,13 @@ table.leaderboard th:not(:first-child), table.leaderboard td:not(:first-child) {
   text-align: center
 }
 
+table.leaderboard th span.sorter.show {
+  visibility:visible;
+}
+
+table.leaderboard th span.sorter.hide {
+  visibility:hidden;
+}
 
 /* Simple styles for main page tabs */
 .main_tabs .nav-item:not(:first-child) {
