@@ -98,3 +98,18 @@ table.leaderboard th span.sorter.hide {
 
 }
 /* End tab styles */
+
+/* avatar styles */
+.user_info_nav {
+  float: right;
+  color: white;
+  padding-left:25px;
+  background-size: contain;
+  background-repeat: no-repeat;
+}
+
+.auth_avatar {
+  padding-left:20px;
+  background-size: contain;
+  background-repeat: no-repeat;
+}

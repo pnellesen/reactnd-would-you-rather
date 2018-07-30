@@ -83,7 +83,7 @@ class Leaderboard extends Component {
             <tbody>
               {users.map((user) => {
                 return ( <tr key={user.id} className={user.id === authedUser.id ? 'authedUserRow' : ''}>
-                  <td className={user.id === authedUser.id ? 'isBold' : ''}>{user.name}</td>
+                  <td className={user.id === authedUser.id ? 'isBold' : ''}><span className={`auth_avatar`} style={{backgroundImage: `url(/${user.avatarURL})`}}>{user.name}</span></td>
                   <td>{user.asked}</td>
                   <td>{user.answered}</td>
                   <td>{user.total}</td>

@@ -4,13 +4,10 @@ import { Button } from 'reactstrap';
 import { Redirect } from 'react-router-dom'
 import { connect } from 'react-redux'
 import { handleSetAuthedUser } from '../actions/authedUser'
-//import { withRouter } from 'react-router-dom'
 
 class LoginForm extends Component {
 
   doAuth = (userId) => {
-
-    console.log("doAuth = userId: ", userId);
     this.props.dispatch(handleSetAuthedUser({userId: userId}))
   }
 
@@ -26,8 +23,8 @@ class LoginForm extends Component {
 
         {Object.keys(users).length > 0 ? (
           <div><p>Please select a user</p>
-          <ul>
-            {Object.keys(users).map((userId) => <li key={userId}><Button color="link" onClick={() => this.doAuth(userId)}>{users[userId].name}</Button></li>)}
+          <ul style={{listStyleType: 'none'}}>
+            {Object.keys(users).map((userId) => <li key={userId}><Button color="link" onClick={() => this.doAuth(userId)}><span className={`auth_avatar`} style={{backgroundImage: `url(/${users[userId].avatarURL})`}}>{users[userId].name}</span></Button></li>)}
           </ul>
           </div>
 
