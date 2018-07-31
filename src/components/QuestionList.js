@@ -12,7 +12,7 @@ function QuestionList(props) {
       const optionTwo = answer['optionTwo']
       const qOneStyle = optionOne.votes.includes(authedUser) ? 'qAnswered' : ''
       const qTwoStyle = optionTwo.votes.includes(authedUser) ? 'qAnswered' : ''
-      return <li key={ answer.id }><Link to={`/question/${ answer.id }`}><span className={ qOneStyle }>{ optionOne.text }</span> or <span className={ qTwoStyle }>{ optionTwo.text }</span>?</Link> (asked on { qDate })</li>}
+      return <li key={ answer.id }><Link to={`/questions/${ answer.id }`}><span className={ qOneStyle }>{ optionOne.text }</span> or <span className={ qTwoStyle }>{ optionTwo.text }</span>?</Link> (asked on { qDate })</li>}
     )}
     </ul>
   )

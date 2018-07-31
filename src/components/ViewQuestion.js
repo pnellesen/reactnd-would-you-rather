@@ -33,7 +33,7 @@ class ViewQuestion extends Component {
           <CardBody>
             <CardTitle>Would you rather...</CardTitle>
             {authorName !== '' && <CardSubtitle className={'auth_avatar'} style={{backgroundImage: `url(/${authorAvatar})`}}>(Submitted by {authorName})</CardSubtitle>}
-            <CardText>
+            
               <form name={'answerForm'} onSubmit={(e) => this._onSubmit(e)}>
                 <fieldset>
                 <div><span className={votes1.includes(authedUser) ? 'isBold' : ''}>{question.optionOne.text}</span> {hasAnswered ? `Votes for: ${votes1.length} (${Math.round(votes1.length/totalVotes * 100)}%)` : <input type={'radio'} value={'optionOne'} onChange={(e) => this._handleAnswerChange(e)} checked={answer === 'optionOne'}/>} </div>
@@ -44,8 +44,8 @@ class ViewQuestion extends Component {
                 </fieldset>
                 { !hasAnswered && <Button title={answer === '' ? 'Please choose an option' : ''} disabled={answer === ''}>Vote!</Button> }
               </form>
-              {(showWaitingMessage === true || isSaving) ? <p>Saving answer...</p> : (!isSaving && showWaitingMessage === false) && <p>Your vote saved!</p>}
-            </CardText>
+              {(showWaitingMessage === true || isSaving) ? 'Saving answer...' : (!isSaving && showWaitingMessage === false) && 'Your vote saved!'}
+            
           </CardBody>
         </Card>
 
