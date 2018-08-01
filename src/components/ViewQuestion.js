@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux'
-import { Card, CardText, CardBody,
+import { Card, CardText, CardHeader, CardBody,
   CardTitle, CardSubtitle, Button } from 'reactstrap';
 import {handleAnswerQuestion} from '../actions/shared'
 
@@ -30,9 +30,10 @@ class ViewQuestion extends Component {
       <div>
 
         <Card>
+          <CardHeader><h3>Would you rather...</h3>{authorName !== '' && <span className={'auth_avatar'} style={{backgroundImage: `url(/${authorAvatar})`}}>(Submitted by {authorName})</span>}</CardHeader>
           <CardBody>
-            <CardTitle>Would you rather...</CardTitle>
-            {authorName !== '' && <CardSubtitle className={'auth_avatar'} style={{backgroundImage: `url(/${authorAvatar})`}}>(Submitted by {authorName})</CardSubtitle>}
+            {/*<CardTitle>Would you rather...</CardTitle>*/}
+            {/*authorName !== '' && <CardSubtitle className={'auth_avatar'} style={{backgroundImage: `url(/${authorAvatar})`}}>(Submitted by {authorName})</CardSubtitle>*/}
             
               <form name={'answerForm'} onSubmit={(e) => this._onSubmit(e)}>
                 <fieldset>
