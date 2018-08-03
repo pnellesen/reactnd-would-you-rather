@@ -78,7 +78,7 @@ input[type=checkbox], input[type=radio], .main_tabs .nav-item a:not(.active):hov
   cursor: pointer
 }
 
-ol.poll li:not(:first-child) {
+ol.poll li:not(:first-child), .marTop10 {
   margin-top: 10px
 }
 

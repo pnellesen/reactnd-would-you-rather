@@ -12,8 +12,6 @@ class NewPoll extends Component {
     showWaitingMessage: null
   };
 
-  keyTimer = null;
-
   _onChange = (evt) => {
     const {id, value} = evt.target
     this.setState({
@@ -65,7 +63,7 @@ class NewPoll extends Component {
           </ol>
           <Button disabled={ answerOne === '' || answerTwo === '' }>Submit Poll</Button>
         </Form>
-        { showWaitingMessage === true ? <div>Submitting...</div> : showWaitingMessage === false && <Redirect push to={'/'}/> }
+        { showWaitingMessage === true ? <div className={'marTop10'}>Submitting...</div> : showWaitingMessage === false && <Redirect push to={'/'}/> }
       </div>
     );
   }
