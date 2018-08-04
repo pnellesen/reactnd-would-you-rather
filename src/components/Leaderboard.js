@@ -12,18 +12,24 @@ class Leaderboard extends Component {
   }
 
   leaderHeaders = [
-    {type: 'name', text: 'Name'},
-    {type: 'asked', text: 'Asked'},
-    {type: 'answered', text: 'Answered'},
-    {type: 'total', text: 'Total'}
+    {colName: 'name', text: 'Name'},
+    {colName: 'asked', text: 'Asked'},
+    {colName: 'answered', text: 'Answered'},
+    {colName: 'total', text: 'Total'}
   ]
 
-  doSort = (type, invert) => {
+  /**
+  * @description _doSort(colName, invert) sort the Leaderboard when user clicks on a column.
+  *
+  * @param {string} colName which column to sort by
+  * @param {bool} invert should we switch the sort order?
+  */
+  _doSort = (colName, invert) => {
 
     const sortOrder = invert ? !this.state.sortOrder : this.state.sortOrder;
     const userVals = Object.values(this.state.users);
 
-    switch(type) {
+    switch(colName) {
       case 'name':
        // sorting by text suggestion at https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/sort
         this.setState( { users: userVals.sort( function(a,b){
@@ -41,14 +47,15 @@ class Leaderboard extends Component {
 
       default:// We assume here that all other sorting will be numeric
         this.setState({ users: userVals.sort(function(a,b){
-          return sortOrder ? b[type] - a[type] : a[type]- b[type]
+          return sortOrder ? b[colName] - a[colName] : a[colName]- b[colName]
         })})
     }
     this.setState({
       sortOrder: sortOrder,
-      sortCol: type
+      sortCol: colName
     })
   }
+  // End _doSort()
 
   componentWillUnmount() {
     //save sorting data for the user to the store here in case user navigates away and comes back
@@ -62,8 +69,7 @@ class Leaderboard extends Component {
 
   componentWillMount() {
     // set up the initial sorting here from the stored info before we render the table.
-
-    this.doSort(this.state.sortCol)
+    this._doSort(this.state.sortCol)
   }
 
   render () {
@@ -76,7 +82,7 @@ class Leaderboard extends Component {
             <thead>
               <tr>
                 {this.leaderHeaders.map((header) =>
-                  <th key={header.type} onClick={() => this.doSort(header.type, true)} title={'Click to sort'}>{header.text}<span className={`sorter ${sortCol === header.type ? `show` : `hide`}`}> {sortOrder ? `\u2193` : `\u2191`}</span></th>
+                  <th key={header.colName} onClick={() => this._doSort(header.colName, true)} title={'Click to sort'}>{header.text}<span className={`sorter ${sortCol === header.colName ? `show` : `hide`}`}> {sortOrder ? `\u2193` : `\u2191`}</span></th>
                 )}
               </tr>
             </thead>

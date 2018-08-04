@@ -1,6 +1,3 @@
-/**
- * Note: the following will eventually go into a "shared" file, along with question loading, but for now we'll keep in here
- */
 import {
     _getUsers,
   } from '../api/_DATA.js'
@@ -11,11 +8,9 @@ export const FETCH_USER = 'FETCH_USER'
 export const STORE_USER_INFO = 'STORE_USER_INFO'
 
 export function storeUserInfo(userInfo) {
-    
     return {
         type: STORE_USER_INFO,
         userInfo
-
     }
 }
 
@@ -38,18 +33,14 @@ export function handleFetchUsers() {
         return _getUsers().then((users) => {
             /**
              * This is where we insert fields for total number of questions asked, answered, and
-             * the sum of both, rather than do it in a component. Use reduce to convert the
-             * array returned by the map() to an object with the original keys
+             * the sum of both, rather than do it in a component.
              */
-            const modifiedUsers = Object.keys(users).map((user) => {
+             Object.keys(users).map((user) => {
                 const totalAnswers = Object.keys(users[user].answers).length;
                 const totalQuestions = users[user].questions.length;
-                return {...users[user], asked: totalQuestions, answered: totalAnswers, total: totalAnswers + totalQuestions}
-            }).reduce(function(obj,item){
-                obj[item.id] = {...item};
-                return obj;
-              }, {});
-            dispatch(fetchUsers(modifiedUsers));
+                return  users[user] = {...users[user], asked: totalQuestions, answered: totalAnswers, total: totalAnswers + totalQuestions}
+            })
+            dispatch(fetchUsers(users));
         })
     }
 }

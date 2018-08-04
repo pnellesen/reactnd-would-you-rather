@@ -1,33 +1,34 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import { connect } from 'react-redux'
 import { Card, CardHeader, CardBody } from 'reactstrap';
 import PollResults from './PollResults'
 import QuestionForm from './QuestionForm';
 
 
-  function ViewQuestion(props) {
-    const { question_id, question, authorAvatar, authorName, hasAnswered } = props
-    return (
-      (question) ?
-      <div>
-        <Card>
-          <CardHeader><h3>Would you rather...</h3>{authorName !== '' && <span className={'auth_avatar'} style={{backgroundImage: `url(/${authorAvatar})`}}>(Submitted by {authorName})</span>}</CardHeader>
-          <CardBody>
-            {hasAnswered ? (
-                <PollResults question_id={question_id}/>
-              ) : (
-                <QuestionForm question_id={question_id}/>
-              )
-            }
-          </CardBody>
-        </Card>
-      </div>
-    :
-      <div>
-        <h3>Question for id {question_id || '[blank]'} not found</h3>
-        <p>Please go back or select an option from the menu</p>
-      </div>
-    )
+function ViewQuestion(props) {
+  const { question_id, question, authorAvatar, authorName, hasAnswered } = props
+  return (
+    (question) ?
+    <div>
+      <Card>
+        <CardHeader><h3>Would you rather...</h3>{authorName !== '' && <span className={'auth_avatar'} style={{backgroundImage: `url(/${authorAvatar})`}}>(Submitted by {authorName})</span>}</CardHeader>
+        <CardBody>
+          {hasAnswered ? (
+              <PollResults question_id={question_id}/>
+            ) : (
+              <QuestionForm question_id={question_id}/>
+            )
+          }
+        </CardBody>
+      </Card>
+    </div>
+  :
+    <div>
+      <h3>Question for id {question_id || '[blank]'} not found</h3>
+      <p>Please go back or select an option from the menu</p>
+    </div>
+  )
 }
 
 const mapStateToProps = ({ authedUser, questions, users }, { match }) => {
@@ -46,4 +47,10 @@ const mapStateToProps = ({ authedUser, questions, users }, { match }) => {
 
  export default connect(mapStateToProps)(ViewQuestion);
 
-
+ViewQuestion.propTypes = {
+  question_id: PropTypes.string,
+  question: PropTypes.object,
+  hasAnswered: PropTypes.bool,
+  authorName: PropTypes.string,
+  authorAvatar: PropTypes.string
+}

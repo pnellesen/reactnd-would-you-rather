@@ -13,7 +13,12 @@ class Main extends Component {
     activeTab: this.props.activeTab
   }
 
-  toggle(tab) {
+  /**
+  * @description _toggle(tab) switch the active tab
+  *
+  * @param {integer} tab which tab to make active
+  */
+  _toggle(tab) {
     this.state.activeTab !== tab && this.setState({activeTab: tab})
   }
 
@@ -22,7 +27,7 @@ class Main extends Component {
     const userInfo = { activeTab: activeTab }
     this.props.dispatch(handleStoreUserInfo({ authedUser: this.props.authedUser, userInfo: userInfo }))
   }
-  
+
   tabInfo = [
     {type: 'unanswered', tabText: 'Unanswered', heading: 'Questions you have not yet answered:'},
     {type: 'answered', tabText: 'Answered', heading: 'Questions you have answered'},
@@ -39,9 +44,9 @@ class Main extends Component {
               return (
                 <NavItem key={index}>
                   <NavLink
-                  className={this.state.activeTab === `${index}` ? 'active' : '' }
-                  onClick={() => { this.toggle(`${index}`); }}
-                  > 
+                  className={this.state.activeTab === index ? 'active' : '' }
+                  onClick={() => { this._toggle(index); }}
+                  >
                   {thisTab.tabText}
                   </NavLink>
                 </NavItem>
@@ -51,26 +56,26 @@ class Main extends Component {
         <TabContent activeTab={this.state.activeTab}>
         { this.tabInfo.map((thisTab, index) => {
           return (
-            <TabPane key={index} tabId={`${index}`}>
+            <TabPane key={index} tabId={index}>
               <h3>{thisTab.heading}</h3>
               <QuestionList type={`${thisTab.type}`}/>
             </TabPane>
           )
         }) }
         </TabContent>
-        </div> 
+        </div>
        ) : (
        <h3>Loading questions...</h3>
        )
-       
+
     );
   }
 }
 
 const mapStateToProps = ({ authedUser, questions, users  }) => {
   const userInfo = users[authedUser].userInfo || {}
-  const activeTab = userInfo.activeTab ? userInfo.activeTab : '0'
-  
+  const activeTab = userInfo.activeTab ? userInfo.activeTab : 0
+
   return {
     authedUser: authedUser,
     questions: questions,
@@ -81,5 +86,7 @@ const mapStateToProps = ({ authedUser, questions, users  }) => {
 export default connect(mapStateToProps)(Main);
 
 Main.propTypes = {
+  authedUser: PropTypes.string,
   questions: PropTypes.object.isRequired,
+  activeTab: PropTypes.number
 }

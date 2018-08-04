@@ -7,7 +7,12 @@ import { handleSetAuthedUser } from '../actions/authedUser'
 
 class LoginForm extends Component {
 
-  doAuth = (userId) => {
+  /**
+  * @description _doAuth() set the authedUser in the store
+  *
+  * @param {string} userId
+  */
+  _doAuth = (userId) => {
     this.props.dispatch(handleSetAuthedUser({userId: userId}))
   }
 
@@ -25,7 +30,7 @@ class LoginForm extends Component {
             <CardBody>
               <CardTitle>Please select a user to log in as</CardTitle>
                 <ListGroup>
-                  {Object.keys(users).map((userId) => <ListGroupItem key={userId}><Button color="link" onClick={() => this.doAuth(userId)}><span className={`auth_avatar`} style={{backgroundImage: `url(/${users[userId].avatarURL})`}}>{users[userId].name}</span></Button></ListGroupItem>)}
+                  {Object.keys(users).map((userId) => <ListGroupItem key={userId}><Button color="link" onClick={() => this._doAuth(userId)}><span className={`auth_avatar`} style={{backgroundImage: `url(/${users[userId].avatarURL})`}}>{users[userId].name}</span></Button></ListGroupItem>)}
               </ListGroup>
             </CardBody>
         ) : (

@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import PropTypes from 'prop-types';
 import { connect } from 'react-redux'
 import { Redirect } from 'react-router-dom'
 import { Form, Button, Input  } from 'reactstrap';
@@ -12,6 +13,11 @@ class NewPoll extends Component {
     showWaitingMessage: null
   };
 
+  /**
+  * @description _onChange() set the authedUser in the store
+  *
+  * @param {SyntheticEvent} evt update the state when the user types in the question form
+  */
   _onChange = (evt) => {
     const {id, value} = evt.target
     this.setState({
@@ -19,7 +25,12 @@ class NewPoll extends Component {
       [id]: value
     })
   }
-  
+
+/**
+  * @description _onSubmit() set the authedUser in the store
+  *
+  * @param {SyntheticEvent} evt add new poll to the store when form submit button is clicked
+  */
   _onSubmit = (evt) => {
     evt.preventDefault();
     const { answerOne, answerTwo } = this.state
@@ -33,13 +44,13 @@ class NewPoll extends Component {
 
       })
     })
-  } 
+  }
 
   /**
-   * Save input fields to store - this will NOT create a new poll, 
+   * Save input fields to store - this will NOT create a new poll,
    * this simply stores the current state of the form so the user can navigate away and come back.
    * Should only need to do this when the component is unmounting.
-   
+
    */
   componentWillUnmount() {
     const { answerOne, answerTwo, showWaitingMessage } = this.state
@@ -79,3 +90,9 @@ const mapStateToProps = (({ authedUser, users }) => {
 })
 
 export default connect(mapStateToProps)(NewPoll);
+
+NewPoll.propTypes = {
+  authedUser: PropTypes.string,
+  answerOne: PropTypes.string,
+  answerTwo: PropTypes.string
+}

@@ -1,4 +1,5 @@
 import React from 'react'
+import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
 import { connect } from 'react-redux'
 
@@ -19,7 +20,7 @@ function QuestionList(props) {
 }
 
 const mapStateToProps = ({ authedUser, questions }, { type }) => {
-  
+
   // convert our questions object to an array, so we can use .map() when rendering. Add filtering for anwered and unanswered questions
   let filteredQs = {}
   switch(type) {
@@ -42,10 +43,10 @@ const mapStateToProps = ({ authedUser, questions }, { type }) => {
       filteredQs = Object.keys(questions).map(question => questions[question]);
       break;
     }
-  
-  // Now order our filtered questions by timestamp, descending  
+
+  // Now order our filtered questions by timestamp, descending
   const orderedQs = filteredQs.sort(function(a,b){return b.timestamp - a.timestamp})
-  
+
   return {
     authedUser: authedUser,
     questions: orderedQs
@@ -53,3 +54,8 @@ const mapStateToProps = ({ authedUser, questions }, { type }) => {
 }
 
 export default connect(mapStateToProps)(QuestionList)
+
+QuestionList.propTypes = {
+  authedUser: PropTypes.string,
+  questions: PropTypes.array
+}
