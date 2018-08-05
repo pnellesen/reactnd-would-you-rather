@@ -4,7 +4,7 @@ import { connect } from 'react-redux'
 import QuestionList from './QuestionList'
 import {handleStoreUserInfo} from '../actions/users'
 
-import { TabContent, TabPane, Nav, NavItem, NavLink, Card, Button, CardTitle, CardText, Row, Col } from 'reactstrap';
+import { TabContent, TabPane, Nav, NavItem, NavLink } from 'reactstrap';
 
 
 class Main extends Component {
