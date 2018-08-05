@@ -1,58 +1,92 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import QuestionList from './QuestionList'
 import { connect } from 'react-redux'
+import QuestionList from './QuestionList'
+import {handleStoreUserInfo} from '../actions/users'
+
+import { TabContent, TabPane, Nav, NavItem, NavLink } from 'reactstrap';
+
 
 class Main extends Component {
+
+  state = {
+    activeTab: this.props.activeTab
+  }
+
+  /**
+  * @description _toggle(tab) switch the active tab
+  *
+  * @param {integer} tab which tab to make active
+  */
+  _toggle(tab) {
+    this.state.activeTab !== tab && this.setState({activeTab: tab})
+  }
+
+  componentWillUnmount() {
+    const { activeTab } = this.state
+    const userInfo = { activeTab: activeTab }
+    this.props.dispatch(handleStoreUserInfo({ authedUser: this.props.authedUser, userInfo: userInfo }))
+  }
+
+  tabInfo = [
+    {type: 'unanswered', tabText: 'Unanswered', heading: 'Questions you have not yet answered:'},
+    {type: 'answered', tabText: 'Answered', heading: 'Questions you have answered'},
+    {type: 'mine', tabText: 'Mine', heading: 'Questions you have authored'},
+  ]
+
   render() {
-    const { qAnswered, qUnanswered, questions } = this.props;
+    const { questions } = this.props;
     return (
-      <div>
-        {Object.keys(questions).length > 0 ? (
-        <div><h3>Questions you have not yet answered:</h3>
-        <QuestionList questions={qUnanswered}/>
-        <h3>Questions you have answered:</h3>
-        <QuestionList questions={qAnswered}/></div>
-       ) : <h3>Loading questions...</h3>}
-       </div>
+        Object.keys(questions).length > 0 ? (
+          <div>
+          <Nav tabs className={'main_tabs'}>
+          { this.tabInfo.map((thisTab, index) => {
+              return (
+                <NavItem key={index}>
+                  <NavLink
+                  className={this.state.activeTab === index ? 'active' : '' }
+                  onClick={() => { this._toggle(index); }}
+                  >
+                  {thisTab.tabText}
+                  </NavLink>
+                </NavItem>
+              )
+            }) }
+        </Nav>
+        <TabContent activeTab={this.state.activeTab}>
+        { this.tabInfo.map((thisTab, index) => {
+          return (
+            <TabPane key={index} tabId={index}>
+              <h3>{thisTab.heading}</h3>
+              <QuestionList type={`${thisTab.type}`}/>
+            </TabPane>
+          )
+        }) }
+        </TabContent>
+        </div>
+       ) : (
+       <h3>Loading questions...</h3>
+       )
+
     );
   }
 }
 
-const mapStateToProps = ({ questions, users, authedUser }) => {
-  const authedUserInfo = users[authedUser]
-  const authedUserAnswered = Object.keys(authedUserInfo.answers)
-
-  // The following suggestion to filter an object by keys from https://stackoverflow.com/questions/38750705/filter-object-properties-by-key-in-es6
-  const qAnswered = Object.keys(questions)
-  .filter(key => authedUserAnswered.includes(key))
-  .reduce((obj, key) => {
-    return {
-      ...obj,
-      [key]: questions[key]
-    };
-  }, {});
-
-  const qUnanswered = Object.keys(questions)
-  .filter(key => !authedUserAnswered.includes(key))
-  .reduce((obj, key) => {
-    return {
-      ...obj,
-      [key]: questions[key]
-    };
-  }, {});
+const mapStateToProps = ({ authedUser, questions, users  }) => {
+  const userInfo = users[authedUser].userInfo || {}
+  const activeTab = userInfo.activeTab ? userInfo.activeTab : 0
 
   return {
+    authedUser: authedUser,
     questions: questions,
-    qAnswered: qAnswered,
-    qUnanswered: qUnanswered
+    activeTab: activeTab
    }
  }
 
 export default connect(mapStateToProps)(Main);
 
 Main.propTypes = {
+  authedUser: PropTypes.string,
   questions: PropTypes.object.isRequired,
-  qAnswered: PropTypes.object,
-  qUnanswered: PropTypes.object
+  activeTab: PropTypes.number
 }

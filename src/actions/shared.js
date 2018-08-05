@@ -1,6 +1,7 @@
 import { showLoading, hideLoading } from 'react-redux-loading'
 import {handleFetchQuestions} from './questions'
 import {handleFetchUsers} from './users'
+import { _saveQuestionAnswer, _saveQuestion } from '../api/_DATA.js'
 
 export function handleInitialData() {
     return (dispatch) => {
@@ -12,4 +13,25 @@ export function handleInitialData() {
             return dispatch(hideLoading())
         })
     }
+}
+
+export function handleAnswerQuestion(questionInfo) {
+    return (dispatch) => {
+        return _saveQuestionAnswer(questionInfo).then(() => {
+            dispatch(handleInitialData());
+        })
+    }
+}
+
+export function handleSaveNewPoll(pollInfo) {
+    return (dispatch) => {
+        dispatch(showLoading())
+        return _saveQuestion(pollInfo).then(() => {
+            return Promise.all([dispatch(handleInitialData())])
+                .then(()=> {
+                    return dispatch(hideLoading())
+                })
+        })
+    }
+
 }

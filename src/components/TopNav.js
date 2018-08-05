@@ -22,14 +22,20 @@ class TopNav extends Component {
         isOpen: false
     };
 
-    toggle() {
+  	/**
+  	* @description _toggle() open/close the nav in small viewports
+    */
+	_toggle() {
 	    this.setState({
 	      isOpen: !this.state.isOpen
 	    });
 	  }
 
-  	// Use this on links - will only cause rerender if in small viewports and toggler is open. If in large viewport, toggler display will be "none"
-	toggleCollapse() {
+	/**
+  	* @description _toggleCollapse() insure the nav closes after user selects a nav item.
+    */
+	_toggleCollapse() {
+		  // Use this on links - will only cause rerender if in small viewports and toggler is open. If in large viewport, toggler display will be "none"
 		var togglerDisplay = window.getComputedStyle(this.togglerRef.firstElementChild).getPropertyValue("display");
         if (this.state.isOpen && togglerDisplay !== 'none') {
             this.setState({isOpen: !this.state.isOpen});
@@ -41,26 +47,25 @@ class TopNav extends Component {
 		return (
 			<div>
 	        <Navbar color="dark" dark expand="md">
-                <NavbarBrand tag={Link} to={'/'} exact={'true'}  onClick={() => this.toggleCollapse()}>Would you rather</NavbarBrand>
-                <div ref={(togglerNode) => {this.togglerRef = togglerNode}}><NavbarToggler onClick={() => this.toggle()} /></div>
+                <NavbarBrand tag={Link} to={'/'} exact={'true'}  onClick={() => this._toggleCollapse()}>Would you rather</NavbarBrand>
+                <div ref={(togglerNode) => {this.togglerRef = togglerNode}}><NavbarToggler onClick={() => this._toggle()} /></div>
 	            <Collapse style={{justifyContent: 'space-between'}} isOpen={this.state.isOpen} navbar>
 					<Nav className="" navbar>{
 						navItems.filter((item) => item.isNavItem).map((item, i) => {
 							const { navTo, navText } = item
 							return (
 								<NavItem key={i}>
-									<NavLink tag={Link} exact={navTo === '/' ? 'true': 'false'} disabled={disabled} to={navTo} onClick={() => this.toggleCollapse()}>{navText}</NavLink>
+									<NavLink tag={Link} exact={navTo === '/' ? 'true': 'false'} disabled={disabled} to={navTo} onClick={() => this._toggleCollapse()}>{navText}</NavLink>
 								</NavItem>
 							)
 						})}
 						<NavItem key={'logout'}>
-							<NavLink tag={Link} to={'/login'} onClick={() => {this.toggleCollapse();!disabled && dispatch(handleDoLogout())}}>{!disabled ? 'Logout' : 'Login'}</NavLink>
+							<NavLink tag={Link} to={'/login'} onClick={() => {this._toggleCollapse();!disabled && dispatch(handleDoLogout())}}>{!disabled ? 'Logout' : 'Login'}</NavLink>
 						</NavItem>
 					</Nav>
-					{!disabled && <span style={{float: 'right',color: 'white'}}>Logged in as {users[authedUser].name}</span>}
 			  	</Collapse>
-
 	        </Navbar>
+			{!disabled && <span style={{backgroundImage: `url(${users[authedUser].avatarURL})`}} className={'userId user_info_nav'}>Logged in as {users[authedUser].name}</span>}
 	      </div>
 		)
 	}

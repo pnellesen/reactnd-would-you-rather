@@ -27,6 +27,7 @@
   to { transform: rotate(360deg); }
 }
 
+/* Personal styles here */
 .qAnswered, .isBold {
   font-weight: bold;
 }
@@ -35,6 +36,100 @@
   background-color: lightgray;
 }
 
-.container {
-  margin: 20px;
+.app_container {
+  max-width: 650px;
+  margin: 0 auto;
+  margin-top: 20px;
+}
+
+/* avatar styles */
+.user_info_nav {
+  float: right;
+  margin:5px;
+  margin-right:20px;
+  padding-left:25px;
+  background-size: contain;
+  background-repeat: no-repeat;
+}
+
+@media screen and (max-width: 375px) {
+  .app_container {
+    max-width: 350px;
+  }
+  table.leaderboard th, table.leaderboard td {
+    font-size: .65em;
+  }
+  .user_info_nav {
+    margin-right:10px
+  }
+}
+
+@media screen and (min-width: 767px) {
+  .app_container {
+    max-width: 740px;
+  }
+}
+
+button.disabled:hover {
+  cursor: not-allowed
+}
+
+input[type=checkbox], input[type=radio], .main_tabs .nav-item a:not(.active):hover, table.leaderboard th:hover {
+  cursor: pointer
+}
+
+ol.poll {display:inline-block}
+ol.poll li:not(:first-child), .marTop10 {
+  margin-top: 10px;
+}
+
+table.leaderboard th:not(:first-child), table.leaderboard td:not(:first-child) {
+  text-align: center
+}
+
+table.leaderboard th span.sorter.show {
+  visibility:visible;
+}
+
+table.leaderboard th span.sorter.hide {
+  visibility:hidden;
+}
+
+/* Simple styles for main page tabs */
+.main_tabs .nav-item:not(:first-child) {
+  margin-left:2px
+}
+
+.main_tabs .nav-item a {
+  background-color:rgb(241, 241, 241);
+  color: #ccc
+}
+
+
+.app_container .tab-pane {
+  padding:20px
+}
+.app_container .tab-content .active {
+  border: 1px solid #ccc;
+  border-top: none
+
+}
+/* End tab styles */
+
+/* Question/Poll results styles */
+fieldset.poll_display {
+  display:inline;
+}
+
+.question_sep {
+  text-align:center;
+  min-width:50px;
+  margin: 0 auto;
+}
+/* End question/Poll results styles */
+
+.auth_avatar {
+  padding-left:20px;
+  background-size: contain;
+  background-repeat: no-repeat;
 }

@@ -1,45 +1,56 @@
-import React, { Component } from 'react';
+import React from 'react';
+import PropTypes from 'prop-types';
 import { connect } from 'react-redux'
+import { Card, CardHeader, CardBody } from 'reactstrap';
+import PollResults from './PollResults'
+import QuestionForm from './QuestionForm';
 
-class ViewQuestion extends Component {
-  render() {
-    const { question_id, question, authedUser, gotQuestion, votes1, votes2, authorName, hasAnswered } = this.props
-    return (
-      (gotQuestion) ? 
-      <div>
-        <h1 style={{display: 'inline-block'}}>Would you rather..</h1>{authorName !== '' && <span> (Submitted by {authorName})</span>}
-        <div><span className={votes1.includes(authedUser) ? 'isBold' : ''}>{question.optionOne.text}</span> {hasAnswered && `Votes for: ${votes1.length}`} </div>
-        <div>or</div>
-        <div><span className={votes2.includes(authedUser) ? 'isBold' : ''}>{question.optionTwo.text}</span> {hasAnswered && `Votes for: ${votes2.length}`}</div>
-      </div>
-    :
-      <h3>Question for id {question_id} not found</h3>
-    )
-  }
+
+function ViewQuestion(props) {
+  const { question_id, question, authorAvatar, authorName, hasAnswered } = props
+  return (
+    (question) ?
+    <div>
+      <Card>
+        <CardHeader><h3>Would you rather...</h3>{authorName !== '' && <span className={'auth_avatar'} style={{backgroundImage: `url(/${authorAvatar})`}}>(Submitted by {authorName})</span>}</CardHeader>
+        <CardBody>
+          {hasAnswered ? (
+              <PollResults question_id={question_id}/>
+            ) : (
+              <QuestionForm question_id={question_id}/>
+            )
+          }
+        </CardBody>
+      </Card>
+    </div>
+  :
+    <div>
+      <h3>Question for id {question_id || '[blank]'} not found</h3>
+      <p>Please go back or select an option from the menu</p>
+    </div>
+  )
 }
 
 const mapStateToProps = ({ authedUser, questions, users }, { match }) => {
-  const question_id = match.params.question_id;
+  const question_id = match.params.question_id || '';
   const question = questions[question_id];
-  const gotQuestion = question_id && question;
-  const votes1 = gotQuestion ? question.optionOne.votes : []
-  const votes2 = gotQuestion ? question.optionTwo.votes : []
-  const authorName = gotQuestion ? users[question.author].name : ''
-  const hasAnswered = gotQuestion && (question.optionOne.votes.includes(authedUser) || question.optionTwo.votes.includes(authedUser))
-  console.log("ViewQuestion - question_id: ", question_id, " - question: ", question)
-
+  const authorName = question ? users[question.author].name : ''
+  const hasAnswered = question && (question.optionOne.votes.includes(authedUser) || question.optionTwo.votes.includes(authedUser))
   return {
-    authedUser: authedUser,
     question_id: question_id,
     question: question,
     hasAnswered: hasAnswered,
     authorName: authorName,
-    gotQuestion: gotQuestion,
-    votes1: votes1,
-    votes2: votes2
+    authorAvatar: question ? users[question.author].avatarURL : ''
   }
  }
 
  export default connect(mapStateToProps)(ViewQuestion);
 
-
+ViewQuestion.propTypes = {
+  question_id: PropTypes.string,
+  question: PropTypes.object,
+  hasAnswered: PropTypes.bool,
+  authorName: PropTypes.string,
+  authorAvatar: PropTypes.string
+}
