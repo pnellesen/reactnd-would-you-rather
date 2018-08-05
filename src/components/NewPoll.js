@@ -2,7 +2,8 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux'
 import { Redirect } from 'react-router-dom'
-import { Form, Button, Input  } from 'reactstrap';
+import { Form, Button, Input, Card, CardHeader, CardBody  } from 'reactstrap';
+
 import {handleStoreUserInfo} from '../actions/users'
 import {handleSaveNewPoll} from '../actions/shared'
 
@@ -64,17 +65,21 @@ class NewPoll extends Component {
     const { answerOne, answerTwo, showWaitingMessage } = this.state;
     return (
       <div>
-        <h1>Submit a new poll</h1>
-        <p>Would you rather...</p>
-        <Form onSubmit={(e) => this._onSubmit(e)}>
-          <ol className={'poll'}>
-            <li><Input type="text" id={'answerOne'} value={ answerOne } onChange={ (e) => this._onChange(e) } placeholder={'Enter Question 1 text'}/></li>
-            <div style={{marginTop: '10px'}}>Or...</div>
-            <li><Input type="text" id={'answerTwo'} value={ answerTwo } onChange={ (e) => this._onChange(e) } placeholder={'Enter Question 2 text'}/></li>
-          </ol>
-          <Button disabled={ answerOne === '' || answerTwo === '' }>Submit Poll</Button>
-        </Form>
-        { showWaitingMessage === true ? <div className={'marTop10'}>Submitting...</div> : showWaitingMessage === false && <Redirect push to={'/'}/> }
+        <Card>
+          <CardHeader><h3>Submit a new poll</h3></CardHeader>
+          <CardBody>
+            <p>Would you rather...</p>
+            <Form onSubmit={(e) => this._onSubmit(e)}>
+              <ol className={'poll'}>
+                <li><Input type="text" id={'answerOne'} value={ answerOne } onChange={ (e) => this._onChange(e) } placeholder={'Enter Question 1 text'}/></li>
+                <div className={'question_sep'} style={{marginTop: '10px'}}>Or...</div>
+                <li><Input type="text" id={'answerTwo'} value={ answerTwo } onChange={ (e) => this._onChange(e) } placeholder={'Enter Question 2 text'}/></li>
+              </ol>
+              <div><Button disabled={ answerOne === '' || answerTwo === '' }>Submit Poll</Button></div>
+            </Form>
+            { showWaitingMessage === true ? <div className={'marTop10'}>Submitting...</div> : showWaitingMessage === false && <Redirect push to={'/'}/> }
+          </CardBody>
+        </Card>
       </div>
     );
   }

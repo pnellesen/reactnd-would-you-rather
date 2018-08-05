@@ -5,17 +5,19 @@ function PollResults(props)  {
     const { question, authedUser, votes1, votes2, totalVotes } = props
     return (
       <div>
-        <div><span className={votes1.includes(authedUser) ? 'isBold' : ''}>{question.optionOne.text}</span> [Votes: {votes1.length} ({Math.round(votes1.length/totalVotes * 100)}%)] </div>
+        <fieldset className={'poll_display'}>
+        <div><span className={votes1.includes(authedUser) ? 'isBold' : ''}>{question.optionOne.text}</span> [{votes1.length}/{totalVotes} ({Math.round(votes1.length/totalVotes * 100)}%)] </div>
 
-        <div>or</div>
+        <div className={'question_sep'}>or</div>
 
-        <div><span className={votes2.includes(authedUser) ? 'isBold' : ''}>{question.optionTwo.text}</span> [Votes: {votes2.length} ({Math.round(votes2.length/totalVotes * 100)}%)]</div>
+        <div><span className={votes2.includes(authedUser) ? 'isBold' : ''}>{question.optionTwo.text}</span> [{votes2.length}/{totalVotes} ({Math.round(votes2.length/totalVotes * 100)}%)]</div>
+      </fieldset>
       </div>
     );
 }
 
 const mapStateToProps = ({ authedUser, questions }, { question_id }) => {
-    
+
     const question = questions[question_id];
     const votes1 = question ? question.optionOne.votes : []
     const votes2 = question ? question.optionTwo.votes : []

@@ -35,14 +35,14 @@ class QuestionForm extends Component {
     const {answer, showWaitingMessage} = this.state
     return (
       <form name={'answerForm'} onSubmit={(e) => this._onSubmit(e)}>
-          <fieldset>
+          <fieldset className={'poll_display'}>
               <div><input type={'radio'} value={'optionOne'} onChange={(e) => this._handleAnswerChange(e)} checked={answer === 'optionOne'}/> <span>{question.optionOne.text}</span> </div>
 
-              <div>or</div>
+              <div className={'question_sep'}>or</div>
 
               <div><input type={'radio'} value={'optionTwo'} onChange={(e) => this._handleAnswerChange(e)} checked={answer === 'optionTwo'}/> <span>{question.optionTwo.text}</span></div>
           </fieldset>
-          <Button className={'marTop10'} title={answer === '' ? 'Please choose an option' : ''} disabled={answer === ''}>Vote!</Button>
+          <div><Button className={'marTop10'} title={answer === '' ? 'Please choose an option' : ''} disabled={answer === ''}>Vote!</Button></div>
           {(showWaitingMessage === true || isSaving) ? <div className={'marTop10'}>Saving answer...</div> : ''}
         </form>
     )

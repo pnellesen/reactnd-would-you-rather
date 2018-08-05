@@ -78,8 +78,9 @@ input[type=checkbox], input[type=radio], .main_tabs .nav-item a:not(.active):hov
   cursor: pointer
 }
 
+ol.poll {display:inline-block}
 ol.poll li:not(:first-child), .marTop10 {
-  margin-top: 10px
+  margin-top: 10px;
 }
 
 table.leaderboard th:not(:first-child), table.leaderboard td:not(:first-child) {
@@ -115,7 +116,17 @@ table.leaderboard th span.sorter.hide {
 }
 /* End tab styles */
 
+/* Question/Poll results styles */
+fieldset.poll_display {
+  display:inline;
+}
 
+.question_sep {
+  text-align:center;
+  min-width:50px;
+  margin: 0 auto;
+}
+/* End question/Poll results styles */
 
 .auth_avatar {
   padding-left:20px;
