@@ -1,5 +1,21 @@
 # Would You Rather Project
 
+Description:
+    This is a single-page ReactJS/Redux polling application. Poll questions take the form of "Would you rather [question 1] or [question 2]".
+
+    Basic operations:
+
+        Login: Upon initial startup, the user will be asked to log in. Upon successful login they will be redirected to the main/index page, which will display 3 tabbed sections, each with a list of questions: "Unanswered" (questions they have not yet answered), "Answered" (questions they have previously answered), and "Mine" (questions they have authored.).
+
+        Answer/View polls: Each poll question will be a link which will take the user to the details of that poll, where they will either see the results of the voting for questions they have answered (number of votes each question recieved, along with the percentage), or else a form where they can select one of the two options. Upon answering the poll question, the question page will reload showing the user the results of that question.
+
+        View Leaderboard: The user will be able to navigate to the "Leaderboard" from the top nav bar. The Leaderboard will display a table with 4 columns: User, total questions the user asked, total questions the user answered, and the sum of asked + answered. The table will be initially sorted by total, descending. The table can be sorted by other the columns by clicking on the column header (an up/down arrow will indicate the current sorting order)
+
+        Create New Polls: The user will have the option (shown in the navigation bar at the top of the window) to also create
+
+
+
+
 This is the starter code for the final assessment project for Udacity's React & Redux course.
 
 The `_DATA.js` file represents a fake database and methods that let you access the data. The only thing you need to edit in the ` _DATA.js` file is the value of `avatarURL`. Each user should have an avatar, so you’ll need to add the path to each user’s avatar.
@@ -55,17 +71,17 @@ Your code will talk to the database via 4 methods:
 
 1) `_getUsers()` Method
 
-*Description*: Get all of the existing users from the database.  
+*Description*: Get all of the existing users from the database.
 *Return Value*: Object where the key is the user’s id and the value is the user object.
 
 2) `_getQuestions()` Method
 
-*Description*: Get all of the existing questions from the database.  
+*Description*: Get all of the existing questions from the database.
 *Return Value*: Object where the key is the question’s id and the value is the question object.
 
 3) `_saveQuestion(question)` Method
 
-*Description*: Save the polling question in the database.  
+*Description*: Save the polling question in the database.
 *Parameters*:  Object that includes the following properties: `author`, `optionOneText`, and `optionTwoText`. More details about these properties:
 
 | Attribute | Type | Description |
