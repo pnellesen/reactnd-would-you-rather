@@ -9,12 +9,17 @@ Description:
 
         Answer/View polls: Each poll question will be a link which will take the user to the details of that poll, where they will either see the results of the voting for questions they have answered (number of votes each question recieved, along with the percentage), or else a form where they can select one of the two options. Upon answering the poll question, the question page will reload showing the user the results of that question.
 
-        View Leaderboard: The user will be able to navigate to the "Leaderboard" from the top nav bar. The Leaderboard will display a table with 4 columns: User, total questions the user asked, total questions the user answered, and the sum of asked + answered. The table will be initially sorted by total, descending. The table can be sorted by other the columns by clicking on the column header (an up/down arrow will indicate the current sorting order)
+        View Leaderboard: The user will be able to navigate to the "Leaderboard" from the top nav bar. The Leaderboard will display a table with 4 columns: User, total questions the user asked, total questions the user answered, and the sum of asked + answered. The table will be initially sorted by total, descending. The table can be sorted by the other columns by clicking on the column header (an up/down arrow will indicate the current sorting order)
 
-        Create New Polls: The user will have the option (shown in the navigation bar at the top of the window) to also create
+        Create New Polls: The user will have the option (shown in the navigation bar at the top of the window) to also create new Polls. When selected, the user will see 2 text fields where they can ask the 2 questions for the poll. Upon submission, the user will be redirected back to the main screen, where they will see the new poll question in their "unanswered" tab.
 
+Installation:
 
+    To install, you should have a node.js server available on your system. Clone or download the app at https://github.com/pnellesen/reactnd-would-you-rather to a directory of your choosing (unzip if downloading) then run "npm install" in the app directory. Once all the required node modules have been installed, run "npm start" to run the application.
 
+=========================================================================
+
+Development information:
 
 This is the starter code for the final assessment project for Udacity's React & Redux course.
 
